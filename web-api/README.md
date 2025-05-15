@@ -17,3 +17,13 @@ This is an express backend project
    ```bash
    npx run dev
    ```
+
+---
+
+## Addition Information
+
+To reset the database run
+
+```bash
+npx run reset
+```
