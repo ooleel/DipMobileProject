@@ -13,7 +13,36 @@ async function resetDatabase() {
 
   console.log("All collections dropped.");
 
-  await db.createCollection("users");
+  await db.createCollection("users", {
+    validator: {
+      $jsonSchema: {
+        bsonType: "object",
+        required: ["name", "email", "passwordHash", "role", "createdAt"],
+        properties: {
+          name: {
+            bsonType: "string",
+            description: "must be a string and is required",
+          },
+          email: {
+            bsonType: "string",
+            description: "must be a string and is required",
+          },
+          passwordHash: {
+            bsonType: "string",
+            description: "must be a string and is required",
+          },
+          role: {
+            bsonType: "string",
+            description: "must be a string and is required",
+          },
+          createdAt: {
+            bsonType: "date",
+            description: "required date",
+          },
+        },
+      },
+    },
+  });
   await db.createCollection("bulletins");
   await db.createCollection("sessions");
   console.log("Recreated collections");
@@ -25,16 +54,16 @@ async function resetDatabase() {
     {
       name: "Alice",
       email: "alice@example.com",
-      passwordHas: "5f4dcc3b5aa765d61d8327deb882cf99",
+      passwordHash: "5f4dcc3b5aa765d61d8327deb882cf99",
       role: "admin",
-      createdAt: "",
+      createdAt: new Date(),
     },
     {
       name: "Bob",
       email: "bob@example.com",
-      passwordHas: "5f4dcc3b5aa765d61d8327deb882cf99",
+      passwordHash: "5f4dcc3b5aa765d61d8327deb882cf99",
       role: "member",
-      createdAt: "",
+      createdAt: new Date(),
     },
   ]);
   console.log('Inserted seed data into "users"');
