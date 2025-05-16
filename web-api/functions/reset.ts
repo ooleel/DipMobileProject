@@ -43,7 +43,36 @@ async function resetDatabase() {
       },
     },
   });
-  await db.createCollection("bulletins");
+  await db.createCollection("bulletins", {
+    validator: {
+      $jsonSchema: {
+        bsonType: "object",
+        required: ["title", "content", "type", "createdBy", "createdAt"],
+        properties: {
+          title: {
+            bsonType: "string",
+            description: "must be a string and is required",
+          },
+          content: {
+            bsonType: "string",
+            description: "must be a string and is required",
+          },
+          type: {
+            bsonType: "string",
+            description: "must be a string and is required",
+          },
+          createdBy: {
+            bsonType: "string",
+            description: "must be a string and is required",
+          },
+          createdAt: {
+            bsonType: "date",
+            description: "required date",
+          },
+        },
+      },
+    },
+  });
   await db.createCollection("sessions");
   console.log("Recreated collections");
 
@@ -66,7 +95,45 @@ async function resetDatabase() {
       createdAt: new Date(),
     },
   ]);
-  console.log('Inserted seed data into "users"');
+  await db.collection("bulletins").insertMany([
+    {
+      title: "Post 1",
+      content: "This is an example post",
+      type: "official",
+      createdBy: "Alice",
+      createdAt: new Date(),
+      status: "this is a status",
+    },
+    {
+      title: "Post 2",
+      content: "This is an example post",
+      type: "member",
+      createdBy: "Bob",
+      createdAt: new Date(),
+    },
+    {
+      title: "Post 3",
+      content: "This is an example post",
+      type: "official",
+      createdBy: "Alice",
+      createdAt: new Date(),
+    },
+    {
+      title: "Post 4",
+      content: "This is an example post",
+      type: "official",
+      createdBy: "Alice",
+      createdAt: new Date(),
+    },
+    {
+      title: "Post 5",
+      content: "This is an example post",
+      type: "member",
+      createdBy: "Bob",
+      createdAt: new Date(),
+    },
+  ]);
+  console.log("Finished resetting the Database");
   process.exit(0);
 }
 
