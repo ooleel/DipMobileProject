@@ -1,5 +1,6 @@
 import express, { Request, Response } from "express";
 import { connectToDatabase } from "./functions/mongoClient";
+import { createPost } from "./functions/createPost";
 import { createUser } from "./functions/createUser";
 import { generateToken, verifyToken } from "./auth/jwt";
 import { WithId } from "mongodb";
@@ -41,6 +42,7 @@ app.post("/createuser", async (req: Request, res: Response) => {
   }
 });
 
+// TODO Refresh tokens
 app.post("/login", async (req: Request, res: Response): Promise<any> => {
   const { email, password } = req.body;
   const db = await connectToDatabase();
@@ -88,6 +90,27 @@ app.get("/test", async (req: Request, res: Response) => {
     }
   } catch {
     res.status(404).json({ message: "failed" });
+  }
+});
+
+app.post("/createpost", async (req: Request, res: Response) => {
+  const authHeader = req.headers.authorization;
+  const checkUser = verifyToken(String(authHeader));
+  if (!checkUser) {
+    res
+      .status(403)
+      .json({ message: "This option is only available to members." });
+  }
+  const result = await createPost(req.body, checkUser.userId);
+  if (result.success) {
+    res.status(201).json({
+      message: "Post created successfully",
+      postId: result.postId,
+    });
+  } else {
+    res.status(400).json({
+      message: result.message || "Post creation failed",
+    });
   }
 });
 

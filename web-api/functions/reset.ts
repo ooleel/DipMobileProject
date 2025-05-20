@@ -1,3 +1,4 @@
+import { ObjectId } from "mongodb";
 import { connectToDatabase } from "./mongoClient";
 
 async function resetDatabase() {
@@ -62,7 +63,7 @@ async function resetDatabase() {
             description: "must be a string and is required",
           },
           createdBy: {
-            bsonType: "string",
+            bsonType: "objectId",
             description: "must be a string and is required",
           },
           createdAt: {
@@ -95,12 +96,18 @@ async function resetDatabase() {
       createdAt: new Date(),
     },
   ]);
+  const aliceid = await db
+    .collection("users")
+    .findOne({ email: "alice@example.com" });
+  const bobid = await db
+    .collection("users")
+    .findOne({ email: "bob@example.com" });
   await db.collection("bulletins").insertMany([
     {
       title: "Post 1",
       content: "This is an example post",
       type: "official",
-      createdBy: "Alice",
+      createdBy: new ObjectId(aliceid?._id),
       createdAt: new Date(),
       status: "this is a status",
     },
@@ -108,28 +115,28 @@ async function resetDatabase() {
       title: "Post 2",
       content: "This is an example post",
       type: "member",
-      createdBy: "Bob",
+      createdBy: new ObjectId(bobid?._id),
       createdAt: new Date(),
     },
     {
       title: "Post 3",
       content: "This is an example post",
       type: "official",
-      createdBy: "Alice",
+      createdBy: new ObjectId(aliceid?._id),
       createdAt: new Date(),
     },
     {
       title: "Post 4",
       content: "This is an example post",
       type: "official",
-      createdBy: "Alice",
+      createdBy: new ObjectId(aliceid?._id),
       createdAt: new Date(),
     },
     {
       title: "Post 5",
       content: "This is an example post",
       type: "member",
-      createdBy: "Bob",
+      createdBy: new ObjectId(bobid?._id),
       createdAt: new Date(),
     },
   ]);
