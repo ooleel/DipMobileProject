@@ -6,7 +6,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreen from './src/screens/HomeScreen';
 import LoginScreen from './src/screens/LoginScreen';
 import BulletinsListScreen from './src/screens/BulletinsListScreen';
-import BulletinDetailsScreen from './src/screens/BulletinsDetailsScreen';
+import BulletinDetailsScreen from './src/screens/BulletinDetailsScreen';
 import PostBulletinScreen from './src/screens/PostBulletinScreen';
 import SettingsScreen from './src/screens/SettingsScreen';
 
@@ -28,8 +28,7 @@ export default function App() {
             <Stack.Navigator initialRouteName="Login">
                 {/*Authentication*/}
                 <Stack.Screen 
-                    name="Login" 
-                    component={LoginScreen} 
+                    name="Login"
                     options={{ headerShown: false }} 
                 >
                     {props => 
@@ -43,7 +42,6 @@ export default function App() {
                 {/*Main flow*/}
                 <Stack.Screen 
                     name="Home" 
-                    component={HomeScreen} 
                     options={{ title: 'Home' }}
                 >
                     {props => 
@@ -56,7 +54,6 @@ export default function App() {
 
                 <Stack.Screen 
                     name="BulletinsList" 
-                    component={BulletinsListScreen} 
                     options={{ title: 'Bulletins' }} 
                 >
                     {props => 
@@ -69,7 +66,6 @@ export default function App() {
 
                 <Stack.Screen 
                     name="BulletinDetails" 
-                    component={BulletinDetailsScreen} 
                     options={{ title: 'Bulletin Details' }} 
                 >
                     {props => 
@@ -82,11 +78,20 @@ export default function App() {
 
                 <Stack.Screen 
                     name="PostBulletin" 
-                    component={PostBulletinScreen} 
                     options={{ title: 'Post a new Bulletin' }} 
-                />
+                >
+                    {props =>
+                        <PostBulletinScreen   
+                            {...props} 
+                            settings = {settings}
+                            settingsStyle = {settingsStyle} 
+                        />}
+                </Stack.Screen>
 
-                <Stack.Screen name="Settings">
+                <Stack.Screen 
+                    name="Settings"
+                    options={{ title: 'Settings' }}
+                >
                     {props => 
                         <SettingsScreen   
                             {...props} 
