@@ -1,11 +1,11 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 
-export default function SettingsScreen() {
+export default function HomeScreen() {
     return (
         <View>
-            <Text>Settings</Text>
-            <Text>Change the font size.</Text>
+            <Text>Home</Text>
+            <Text>Welcome to SeniorLearn!</Text>
         </View>
     );
  }
