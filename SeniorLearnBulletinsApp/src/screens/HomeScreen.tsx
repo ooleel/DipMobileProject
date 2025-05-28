@@ -36,7 +36,7 @@ export default function HomeScreen({navigation, settings, settingsStyle}: Props)
     );
  }
 
- const styles = StyleSheet.create({
+const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
