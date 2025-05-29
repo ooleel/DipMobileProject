@@ -5,7 +5,6 @@ import bcrypt from "bcrypt";
 interface CreateUserInput {
   name: string;
   email: string;
-  age: number;
   password: string;
 }
 
@@ -20,10 +19,10 @@ const SALT_ROUNDS = 12;
 export async function createUser(
   input: CreateUserInput,
 ): Promise<CreateUserResult> {
-  const { name, email, age, password } = input;
+  const { name, email, password } = input;
 
   // Basic validation
-  if (!name || !email || typeof age !== "number" || !password) {
+  if (!name || !email || !password) {
     return { success: false, message: "Missing required fields" };
   }
 

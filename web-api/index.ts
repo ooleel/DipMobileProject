@@ -1,10 +1,13 @@
 import express, { Request, Response } from "express";
 import { connectToDatabase } from "./functions/mongoClient";
 import { createPost } from "./functions/createPost";
+import { editPost } from "./functions/editPost";
 import { createUser } from "./functions/createUser";
 import { generateToken, verifyToken } from "./auth/jwt";
 import { WithId } from "mongodb";
 import bcrypt from "bcrypt";
+import swaggerUi from "swagger-ui-express";
+import swaggerSpec from "./swagger";
 
 const cors = require("cors");
 const app = express();
@@ -26,6 +29,8 @@ interface Bulletin {
   createdBy: string;
   createdAt: Date;
 }
+
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.post("/createuser", async (req: Request, res: Response) => {
   const result = await createUser(req.body);
@@ -90,6 +95,27 @@ app.get("/test", async (req: Request, res: Response) => {
     }
   } catch {
     res.status(404).json({ message: "failed" });
+  }
+});
+
+app.post("/editpost", async (req: Request, res: Response) => {
+  const authHeader = req.headers.authorization;
+  const checkUser = verifyToken(String(authHeader));
+  if (!checkUser) {
+    res
+      .status(403)
+      .json({ message: "This option is only available to members." });
+  }
+  const result = await editPost(req.body, checkUser.userId);
+  if (result.success) {
+    res.status(201).json({
+      message: "Post updated successfully",
+      postId: result.postId,
+    });
+  } else {
+    res.status(400).json({
+      message: result.message || "Post Edit failed",
+    });
   }
 });
 
@@ -166,4 +192,5 @@ app.get("/", (req: Request, res: Response) => {
 
 app.listen(port, "0.0.0.0", () => {
   console.log(`Server is running on port ${port}`);
+  console.log(`Swagger UI available at http://localhost:${port}/api-docs`);
 });
