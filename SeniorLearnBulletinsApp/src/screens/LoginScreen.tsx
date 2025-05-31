@@ -9,7 +9,7 @@ interface Props {
     settingsStyle?: any;
 }
 
-export default function LoginScreen({navigation, settingsStyle}: Props) {
+export default function LoginScreen({navigation}: Props) {
     const handleLogin = () => {
         //Navigate to Home after login
         navigation.navigate('Home');
@@ -25,58 +25,61 @@ export default function LoginScreen({navigation, settingsStyle}: Props) {
     return (
         <SafeAreaProvider>
              <SafeAreaView style={styles.container}>
-                <View> 
-                    <Text style={[styles.title, settingsStyle]}>SeniorLearn</Text> 
+                <View style={styles.container}> 
+                    <Text style={styles.title}>SeniorLearn</Text> 
                     {/* TODO: Add icon here */}
-                    <Text style={[styles.subtitle, settingsStyle]}>Connect and learn together</Text>
-                </View>
+                    <Text style={styles.subtitle}>Connect and learn together</Text>
 
-                <View style={styles.loginContainer}>
-                    <Text style={styles.areaTitle}>Log in</Text>
+                    <View style={styles.loginContainer}>
+                        <Text style={styles.areaTitle}>Log in</Text>
 
-                    <View style={styles.inputContainer}>
-                        <Text style={styles.label}>Email</Text>
-                        <TextInput 
-                            style={styles.input} 
-                            placeholder="youremail@here.com" 
-                            keyboardType="email-address" 
-                            autoCapitalize="none"
-                        />
+                        <View style={styles.emailWrapper}>
+                            <Text style={styles.label}>Email</Text>
+                            <TextInput 
+                                style={styles.input} 
+                                placeholder="youremail@here.com" 
+                                keyboardType="email-address" 
+                                autoCapitalize="none"
+                            />
 
-                        <Text style={styles.label}>Password</Text>
-                        <TextInput 
-                            secureTextEntry = {!showPassword}
-                            value = {password}
-                            onChangeText = {setPassword}
-                            style={styles.input} 
-                            placeholder="Your Password here" 
-                            keyboardType="email-address" 
-                            autoCapitalize="none"
-                        />
-                        <Ionicons 
-                            name={showPassword ? "eye-off" : "eye"} 
-                            size={24} 
-                            color="black" 
-                            onPress={toggleShowPassword} 
-                            style={{ marginLeft: 10 }}
-                        />
+                            <Text style={styles.label}>Password</Text>
+                            <View style={styles.pwInputWrapper}> 
+                                <TextInput 
+                                    style={styles.pwInput} 
+                                    placeholder="Your Password here"
+                                    secureTextEntry = {!showPassword}
+                                    value = {password}
+                                    onChangeText = {setPassword}
+                                    autoCapitalize="none"
+                                />
+                                <TouchableOpacity onPress={toggleShowPassword}> 
+                                    <Ionicons 
+                                        name={showPassword ? "eye-off" : "eye"} 
+                                        size={24} 
+                                        color="black" 
+                                    />
+                                </TouchableOpacity>
+                            </View> {/* End pwInputWrapper */}
 
-                        <TouchableOpacity style={styles.button} onPress={handleLogin}>
-                            <Text style={styles.buttonText}>Log in</Text>
+                            <TouchableOpacity style={styles.button} onPress={handleLogin}>
+                                <Text style={styles.buttonText}>Log in</Text>
+                            </TouchableOpacity>
+                        </View> {/* End inputContainer */}
+                    </View> {/* End loginContainer */}
+
+                    <View style={styles.btnWrapper}>
+                        {/* or hyperlink?? */}
+                        {/* TODO: add onPress */}
+                        <TouchableOpacity style={styles.button}>
+                                <Text style={styles.buttonText}>Forgot my password</Text>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity style={styles.button}>
+                                <Text style={styles.buttonText}>Create a new account</Text>
                         </TouchableOpacity>
                     </View>
-
-                    {/* or hyperlink?? */}
-                    {/* TODO: add onPress */}
-                    <TouchableOpacity style={styles.button}>
-                            <Text style={styles.buttonText}>Forgot my password</Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity style={styles.button}>
-                            <Text style={styles.buttonText}>Create a new account</Text>
-                    </TouchableOpacity>
-                </View>
-
+                    
+                </View> {/* End main container */}
             </SafeAreaView>
         </SafeAreaProvider>
        
@@ -84,67 +87,95 @@ export default function LoginScreen({navigation, settingsStyle}: Props) {
 }
 
 const styles = StyleSheet.create({
+    //Main container styles
     container: {
         flex: 1,
-        justifyContent: 'center',
         alignItems: 'center',
         padding: 20,
         backgroundColor: '#fff',
+        marginTop: 50,
+        width: '100%',
     },
     title: {
-        fontSize: 24,
+        fontSize: 38,
         fontWeight: 'bold',
         marginBottom: 10,
     },
     subtitle: {
-        fontSize: 18,
-        marginBottom: 20,
-        textAlign: 'center',
+        fontSize: 20,
     },
+
+    //Login container styles
     loginContainer:{
-        width: '100%',
         padding: 20,
+        width: '90%',
         backgroundColor: '#f9f9f9',
         borderRadius: 8,
         shadowColor: '#000',
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
+        shadowOffset: { width: 0, height: 2, },
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
         elevation: 5,
+        marginTop: 30, //spacing below header
+        alignSelf: 'center', //center the container horizontally 
     },
     areaTitle: {
-        fontSize: 20,
+        fontSize: 24,
         fontWeight: 'bold',
-        marginBottom: 10,
     },
-    inputContainer: {
+    emailWrapper: {
         width: '100%',
         gap: 15,
-        marginTop: 20,
+        marginBottom: 10,
     },
     label: {
         fontSize: 16,
         fontWeight: '600',
-        marginBottom: 5,
+        marginBottom: 4,
     },
     input: {
-        height: 40,
+        height: 44,
         borderColor: '#ccc',
+        backgroundColor: '#fff',
         borderWidth: 1,
         borderRadius: 8,
+        fontSize: 16,
+        paddingHorizontal: 10,
     },
     button: {
         backgroundColor: '#007bff',
-        paddingHorizontal: 30,
-        paddingVertical: 15,
+        paddingVertical: 14,
         borderRadius: 8,
+        marginTop: 10,
     },
     buttonText: {
         color: '#fff',
         fontSize: 16,
         fontWeight: '600',
+        textAlign: 'center',
+    },
+
+    //Password input styles
+    pwInputWrapper: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        borderWidth: 1,
+        borderColor: '#ccc',
+        borderRadius: 8,
+        paddingHorizontal: 10,
+        backgroundColor: '#fff',
+        height: 44,
+        marginBottom: 10,
+    },
+    pwInput: {
+        flex: 1,
+        fontSize: 16,
+    },
+
+    //others
+    btnWrapper: {
+        width: '90%',
+        marginTop: 20,
+        gap: 10,
     },
 });
