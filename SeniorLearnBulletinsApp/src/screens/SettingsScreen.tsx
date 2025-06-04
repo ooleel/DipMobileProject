@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Switch } from 'react-native';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 interface Props {
     navigation: any;
@@ -33,47 +34,53 @@ export default function SettingsScreen({ navigation, fontSize, setFontSize, sett
     };
 
     return (
-        <View style={styles.container}>
-            <Text style={styles.title}>Settings</Text>
-            <Text style={[styles.subtitle, {fontSize: fontSize - 2}]}>
-                Customise the settings to fit your needs.
-            </Text>
+        <SafeAreaProvider>
+            <SafeAreaView>
+                <View style={styles.container}>
+                    <Text style={styles.title}>Settings</Text>
+                    <Text style={[styles.subtitle, {fontSize: fontSize - 2}]}>
+                        Customise the settings to fit your needs.
+                    </Text>
 
-            <View style={styles.settingsSection}>
-                <Text style={styles.sectionTitle}>Font Size</Text>
-                <Text style={[styles.currentValue, {fontSize}]}>
-                    Current font size: {fontSize}px
-                </Text>
-            </View>
+                    <View style={styles.settingsSection}>
+                        <Text style={styles.sectionTitle}>Font Size</Text>
+                        <Text style={[styles.currentValue, {fontSize}]}>
+                            Current font size: {fontSize}px
+                        </Text>
+                    </View>
 
-            <View style={styles.buttonRow}>
-                <TouchableOpacity 
-                    style={[styles.button, fontSize <= 14 && styles.disabledButton]}
-                    onPress={decreaseFontSize} 
-                    disabled={fontSize <= 14}
-                >
-                    <Text style={styles.buttonText}>Smaller</Text>
-                </TouchableOpacity>
-                <TouchableOpacity 
-                    style={[styles.button, fontSize >= 30 && styles.disabledButton]}
-                    onPress={increaseFontSize} 
-                    disabled={fontSize >= 30}
-                >
-                    <Text style={styles.buttonText}>Larger</Text>
-                </TouchableOpacity>
-            </View>
+                    <View style={styles.buttonRow}>
+                        <TouchableOpacity 
+                            style={[styles.button, fontSize <= 14 && styles.disabledButton]}
+                            onPress={decreaseFontSize} 
+                            disabled={fontSize <= 14}
+                        >
+                            <Text style={styles.buttonText}>Smaller</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity 
+                            style={[styles.button, fontSize >= 30 && styles.disabledButton]}
+                            onPress={increaseFontSize} 
+                            disabled={fontSize >= 30}
+                        >
+                            <Text style={styles.buttonText}>Larger</Text>
+                        </TouchableOpacity>
+                    </View>
 
-            <View style={styles.settingsSection}>
-                <Text style={[styles.sectionTitle, {fontSize}]}>Sound</Text>
-                <Text style={[styles.switchLabel, {fontSize}]}>Enable sound</Text>
-                <Switch
-                    value={settings.isSoundEnabled}
-                    onValueChange={toggleSound}
-                    trackColor={{ false: 'red', true: 'green' }}
-                    thumbColor={settings.isSoundEnabled ? 'blue' : 'orange'}
-                />
-            </View>
-        </View>
+                    <View style={styles.settingsSection}>
+                        <Text style={[styles.sectionTitle, {fontSize}]}>Sound</Text>
+                        <Text style={[styles.switchLabel, {fontSize}]}>Enable sound</Text>
+                        <Switch
+                            value={settings.isSoundEnabled}
+                            onValueChange={toggleSound}
+                            trackColor={{ false: 'red', true: 'green' }}
+                            thumbColor={settings.isSoundEnabled ? 'blue' : 'orange'}
+                        />
+                    </View>
+                </View> {/* End main container */}
+            </SafeAreaView>
+        </SafeAreaProvider>
+
+        
     );
 }
 

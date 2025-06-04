@@ -8,6 +8,7 @@ interface Props {
     settingsStyle?: any;
 }
 
+//FIXME: "← Home" should navigate to Login 
 //TODO: add ", settings, settingsStyle" to Props ↓ when Settings will be implemented
 export default function HomeScreen({navigation}: Props) {
     return (
@@ -21,7 +22,7 @@ export default function HomeScreen({navigation}: Props) {
 
                     <View style={styles.homeContainer}> 
                         <Text style={styles.subtitle}>Have a look</Text>
-                        <View style={styles.btnContainer}>
+                        <View style={styles.btnWrapper}>
                             <TouchableOpacity 
                                 style={styles.button} 
                                 onPress={() => navigation.navigate('BulletinsList')}>
@@ -58,7 +59,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 20,
-        backgroundColor: '#fff',
+        backgroundColor: '#FAF9F6', //off-white
     },
     wrapper: {
         alignItems: 'center',
@@ -68,17 +69,18 @@ const styles = StyleSheet.create({
         fontSize: 38,
         fontWeight: 'bold',
         marginBottom: 10,
+        color: '#A51589' //plum
     },
     subtitle: {
         fontSize: 20,
+        color: '#031602' //dark green
     },
-
     homeContainer:{
         flex: 1,
         alignItems: 'center',
         padding: 20,
         width: '90%',
-        backgroundColor: '#f9f9f9',
+        backgroundColor: '#DACFD5', //mauve
         borderRadius: 8,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 2, },
@@ -90,26 +92,28 @@ const styles = StyleSheet.create({
     },
 
     //Button styles
-    btnContainer: {
+    btnWrapper: {
         width: '90%',
         marginTop: 20,
         gap: 10,
     },
     button: {
-        backgroundColor: '#007bff',
+        backgroundColor: '#FFFAFA', //old lace
+        borderColor: '#FD7F00', //orange
+        borderWidth: 1,
         paddingVertical: 14,
         borderRadius: 8,
         marginTop: 10,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2, },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
     },
     buttonText: {
-        color: '#fff',
+        color: '##FD7F00', //orange
         fontSize: 16,
         fontWeight: '600',
         textAlign: 'center',
-    },
-    btnWrapper: {
-        width: '90%',
-        marginTop: 20,
-        gap: 10,
     },
 });

@@ -100,18 +100,18 @@ const styles = StyleSheet.create({
         fontSize: 38,
         fontWeight: 'bold',
         marginBottom: 10,
-        color: '#5C2751' //deep plum
+        color: '#A51589' //plum
     },
     subtitle: {
         fontSize: 20,
-        color: '#5C2751' //deep plum
+        color: '#A51589' //plum
     },
 
     //Login container styles
     loginContainer:{
         padding: 20,
         width: '90%',
-        backgroundColor: '#7FA98A', //sage green 
+        backgroundColor: '#D0D8C3', //sage green 
         borderRadius: 8,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 2, },
@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
     areaTitle: {
         fontSize: 24,
         fontWeight: 'bold',
-        color: '#5C2751', //deep plum
+        color: '#A51589', //plum
     },
     emailWrapper: {
         width: '100%',
@@ -152,6 +152,10 @@ const styles = StyleSheet.create({
         paddingVertical: 14,
         borderRadius: 8,
         marginTop: 10,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2, },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
     },
     loginBtnText: {
         color: '#FFFAFA', //old lace
@@ -191,9 +195,14 @@ const styles = StyleSheet.create({
         paddingVertical: 14,
         borderRadius: 8,
         marginTop: 10,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2, },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
     },
     buttonText: {
-        color: '##FD7F00', //
+        color: '##FD7F00', //orange
         fontSize: 16,
         fontWeight: '600',
         textAlign: 'center',
