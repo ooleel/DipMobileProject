@@ -15,6 +15,7 @@ export default function HomeScreen({navigation}: Props) {
         <SafeAreaProvider>
             <SafeAreaView style={styles.container}>
                 <View style={styles.wrapper}>
+                    {/* FIXME: header */}
                     <Text style={styles.title}>SeniorLearn</Text> 
                     {/* TODO: Add icon here */}
                     

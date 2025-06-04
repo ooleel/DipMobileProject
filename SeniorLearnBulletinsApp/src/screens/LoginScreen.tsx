@@ -26,6 +26,7 @@ export default function LoginScreen({navigation}: Props) {
         <SafeAreaProvider>
              <SafeAreaView style={styles.container}>
                 <View style={styles.wrapper}> 
+                    {/* FIXME: header */}
                     <Text style={styles.title}>SeniorLearn</Text> 
                     {/* TODO: Add icon here */}
                     <Text style={styles.subtitle}>Connect and learn together</Text>

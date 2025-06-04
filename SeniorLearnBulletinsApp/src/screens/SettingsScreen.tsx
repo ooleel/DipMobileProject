@@ -13,8 +13,9 @@ interface Props {
     setSettings: (settings: any) => void;
 }
 
+//FIXME: "← Settings" fix navigation
 export default function SettingsScreen({ navigation, fontSize, setFontSize, settings, setSettings }: Props) {
-
+    //Font size state and functions
     const increaseFontSize = () => {
         if (fontSize < 30) {
             setFontSize(fontSize + 2);
@@ -25,7 +26,11 @@ export default function SettingsScreen({ navigation, fontSize, setFontSize, sett
             setFontSize(fontSize - 2);
         }
     };
+
+    //High contrast mode state
+    //Dark mode 
     
+    //Sound toggle function
     const toggleSound = () => {
         setSettings({
             ...settings,
@@ -35,47 +40,54 @@ export default function SettingsScreen({ navigation, fontSize, setFontSize, sett
 
     return (
         <SafeAreaProvider>
-            <SafeAreaView>
-                <View style={styles.container}>
-                    <Text style={styles.title}>Settings</Text>
-                    <Text style={[styles.subtitle, {fontSize: fontSize - 2}]}>
-                        Customise the settings to fit your needs.
-                    </Text>
+            <SafeAreaView style={styles.container}>
+                <View style={styles.wrapper}>
+                    {/* FIXME: header */}
+                    <Text style={styles.title}>SeniorLearn</Text> 
+                    {/* TODO: Add icon here */}
+                    
+                    {/* TODO: Add menu */}
 
-                    <View style={styles.settingsSection}>
+                    <Text style={styles.subtitle}>Settings</Text>
+
+                    <View style={styles.fontContainer}>
                         <Text style={styles.sectionTitle}>Font Size</Text>
                         <Text style={[styles.currentValue, {fontSize}]}>
                             Current font size: {fontSize}px
                         </Text>
+
+                        <View style={styles.buttonRow}>
+                            <TouchableOpacity 
+                                style={[styles.button, fontSize <= 14 && styles.disabledButton]}
+                                onPress={decreaseFontSize} 
+                                disabled={fontSize <= 14}
+                            >
+                                <Text style={styles.buttonText}>Smaller</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity 
+                                style={[styles.button, fontSize >= 30 && styles.disabledButton]}
+                                onPress={increaseFontSize} 
+                                disabled={fontSize >= 30}
+                            >
+                                <Text style={styles.buttonText}>Larger</Text>
+                            </TouchableOpacity>
+                        </View> {/* End button row */}
+                    </View> {/* End font container */}
+
+                    <View>
+                        <Text></Text>
                     </View>
 
-                    <View style={styles.buttonRow}>
-                        <TouchableOpacity 
-                            style={[styles.button, fontSize <= 14 && styles.disabledButton]}
-                            onPress={decreaseFontSize} 
-                            disabled={fontSize <= 14}
-                        >
-                            <Text style={styles.buttonText}>Smaller</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity 
-                            style={[styles.button, fontSize >= 30 && styles.disabledButton]}
-                            onPress={increaseFontSize} 
-                            disabled={fontSize >= 30}
-                        >
-                            <Text style={styles.buttonText}>Larger</Text>
-                        </TouchableOpacity>
-                    </View>
-
-                    <View style={styles.settingsSection}>
+                    <View style={styles.soundContainer}>
                         <Text style={[styles.sectionTitle, {fontSize}]}>Sound</Text>
                         <Text style={[styles.switchLabel, {fontSize}]}>Enable sound</Text>
                         <Switch
                             value={settings.isSoundEnabled}
                             onValueChange={toggleSound}
-                            trackColor={{ false: 'red', true: 'green' }}
-                            thumbColor={settings.isSoundEnabled ? 'blue' : 'orange'}
+                            trackColor={{ false: '#E28378', true: '#53A267' }}
+                            thumbColor={settings.isSoundEnabled ? '#305F3C' : '#D23D2D'}
                         />
-                    </View>
+                    </View> {/* End sound container */}
                 </View> {/* End main container */}
             </SafeAreaView>
         </SafeAreaProvider>
@@ -86,20 +98,29 @@ export default function SettingsScreen({ navigation, fontSize, setFontSize, sett
 
 //TODO: add colours and styles for disabled buttons
 const styles = StyleSheet.create({
+    //Main container styles
     container: {
         flex: 1,
         padding: 20,
-        backgroundColor: '#fff',
+        backgroundColor: '#FAF9F6', //off-white
+    },
+    wrapper: {
+        alignItems: 'center',
+        width: '100%',
     },
     title: {
+        fontSize: 38,
         fontWeight: 'bold',
         marginBottom: 10,
+        color: '#A51589' //plum
     },
     subtitle: {
-        marginBottom: 20,
-        textAlign: 'center',
+        fontSize: 20,
+        color: '#031602' //dark green
     },
-    settingsSection: {
+
+
+    fontContainer: {
         marginBottom: 30,
         padding: 15,
         //borderRadius: 8,
