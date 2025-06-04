@@ -25,7 +25,7 @@ export default function LoginScreen({navigation}: Props) {
     return (
         <SafeAreaProvider>
              <SafeAreaView style={styles.container}>
-                <View style={styles.container}> 
+                <View style={styles.wrapper}> 
                     <Text style={styles.title}>SeniorLearn</Text> 
                     {/* TODO: Add icon here */}
                     <Text style={styles.subtitle}>Connect and learn together</Text>
@@ -46,7 +46,7 @@ export default function LoginScreen({navigation}: Props) {
                             <View style={styles.pwInputWrapper}> 
                                 <TextInput 
                                     style={styles.pwInput} 
-                                    placeholder="Your Password here"
+                                    placeholder="Your password here"
                                     secureTextEntry = {!showPassword}
                                     value = {password}
                                     onChangeText = {setPassword}
@@ -61,8 +61,8 @@ export default function LoginScreen({navigation}: Props) {
                                 </TouchableOpacity>
                             </View> {/* End pwInputWrapper */}
 
-                            <TouchableOpacity style={styles.button} onPress={handleLogin}>
-                                <Text style={styles.buttonText}>Log in</Text>
+                            <TouchableOpacity style={styles.loginBtn} onPress={handleLogin}>
+                                <Text style={styles.loginBtnText}>Log in</Text>
                             </TouchableOpacity>
                         </View> {/* End inputContainer */}
                     </View> {/* End loginContainer */}
@@ -78,8 +78,7 @@ export default function LoginScreen({navigation}: Props) {
                                 <Text style={styles.buttonText}>Create a new account</Text>
                         </TouchableOpacity>
                     </View>
-                    
-                </View> {/* End main container */}
+                </View> {/* End wrapper */}
             </SafeAreaView>
         </SafeAreaProvider>
        
@@ -90,26 +89,29 @@ const styles = StyleSheet.create({
     //Main container styles
     container: {
         flex: 1,
-        alignItems: 'center',
         padding: 20,
-        backgroundColor: '#fff',
-        marginTop: 50,
+        backgroundColor: '#FAF9F6', //off-white
+    },
+    wrapper: {
+        alignItems: 'center',
         width: '100%',
     },
     title: {
         fontSize: 38,
         fontWeight: 'bold',
         marginBottom: 10,
+        color: '#5C2751' //deep plum
     },
     subtitle: {
         fontSize: 20,
+        color: '#5C2751' //deep plum
     },
 
     //Login container styles
     loginContainer:{
         padding: 20,
         width: '90%',
-        backgroundColor: '#f9f9f9',
+        backgroundColor: '#7FA98A', //sage green 
         borderRadius: 8,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 2, },
@@ -122,6 +124,7 @@ const styles = StyleSheet.create({
     areaTitle: {
         fontSize: 24,
         fontWeight: 'bold',
+        color: '#5C2751', //deep plum
     },
     emailWrapper: {
         width: '100%',
@@ -132,6 +135,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: '600',
         marginBottom: 4,
+        color: '#031602', //very dark green
     },
     input: {
         height: 44,
@@ -141,15 +145,16 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         fontSize: 16,
         paddingHorizontal: 10,
+        color: '#898989', //light gray
     },
-    button: {
-        backgroundColor: '#007bff',
+    loginBtn: {
+        backgroundColor: '#FD7F00', //orange
         paddingVertical: 14,
         borderRadius: 8,
         marginTop: 10,
     },
-    buttonText: {
-        color: '#fff',
+    loginBtnText: {
+        color: '#FFFAFA', //old lace
         fontSize: 16,
         fontWeight: '600',
         textAlign: 'center',
@@ -170,12 +175,27 @@ const styles = StyleSheet.create({
     pwInput: {
         flex: 1,
         fontSize: 16,
+        color: '#898989', //light gray
     },
 
-    //others
+    //other button styles
     btnWrapper: {
         width: '90%',
         marginTop: 20,
         gap: 10,
+    },
+    button: {
+        backgroundColor: '#FFFAFA', //old lace
+        borderColor: '#FD7F00', //orange
+        borderWidth: 1,
+        paddingVertical: 14,
+        borderRadius: 8,
+        marginTop: 10,
+    },
+    buttonText: {
+        color: '##FD7F00', //
+        fontSize: 16,
+        fontWeight: '600',
+        textAlign: 'center',
     },
 });
