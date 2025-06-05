@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Switch } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+//FIXME: Add useState for font size? 
 
 interface Props {
     navigation: any;
@@ -38,6 +39,11 @@ export default function SettingsScreen({ navigation, fontSize, setFontSize, sett
         });
     };
 
+    //Save settings function
+    const handleSave = () => {
+        navigation.goBack(); //back to previous screen (Home)
+    };
+
     return (
         <SafeAreaProvider>
             <SafeAreaView style={styles.container}>
@@ -50,7 +56,7 @@ export default function SettingsScreen({ navigation, fontSize, setFontSize, sett
 
                     <Text style={styles.subtitle}>Settings</Text>
 
-                    <View style={styles.fontContainer}>
+                    <View style={styles.layoutContainer}>
                         <Text style={styles.sectionTitle}>Font Size</Text>
                         <Text style={[styles.currentValue, {fontSize}]}>
                             Current font size: {fontSize}px
@@ -74,12 +80,8 @@ export default function SettingsScreen({ navigation, fontSize, setFontSize, sett
                         </View> {/* End button row */}
                     </View> {/* End font container */}
 
-                    <View>
-                        <Text></Text>
-                    </View>
-
-                    <View style={styles.soundContainer}>
-                        <Text style={[styles.sectionTitle, {fontSize}]}>Sound</Text>
+                    <View style={styles.layoutContainer}>
+                        <Text style={styles.sectionTitle}>Sound</Text>
                         <Text style={[styles.switchLabel, {fontSize}]}>Enable sound</Text>
                         <Switch
                             value={settings.isSoundEnabled}
@@ -88,6 +90,12 @@ export default function SettingsScreen({ navigation, fontSize, setFontSize, sett
                             thumbColor={settings.isSoundEnabled ? '#305F3C' : '#D23D2D'}
                         />
                     </View> {/* End sound container */}
+
+                    <View style={styles.saveBtnContainer}>
+                        <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
+                            <Text style={styles.saveButtonText}>Save settings</Text>
+                        </TouchableOpacity>
+                    </View> {/* End save button container */}
                 </View> {/* End main container */}
             </SafeAreaView>
         </SafeAreaProvider>
@@ -119,42 +127,68 @@ const styles = StyleSheet.create({
         color: '#031602' //dark green
     },
 
+    //Layout accessibility styles
+    layoutContainer: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 20,
+        width: '90%',
+        borderColor: '#DACFD5', //mauve
+        borderWidth: 1,
+        borderRadius: 8,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2, },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5, 
+        marginTop: 30, //spacing below header
+        alignSelf: 'center', //center the container horizontally
 
-    fontContainer: {
-        marginBottom: 30,
-        padding: 15,
-        //borderRadius: 8,
-        // backgroundColor??
     },
     sectionTitle: {
-        fontWeight: '600',
-        marginBottom: 10,
+        fontSize: 22,
+        fontWeight: 'bold',
+        color: '#936589', //light plum
     },
     currentValue: {
-        color: 'violet',
+        color: '#031602', //very dark green
         marginBottom: 15,
     },
     buttonRow: {
         flexDirection: 'row',
-        gap: 10,
+        gap: 25,
     },
     button: {
-        backgroundColor: 'yellow',
-        paddingHorizontal: 20,
-        paddingVertical: 10,
-        borderRadius: 6,
-        flex: 1,
-        alignItems: 'center',
-    },
-    disabledButton: {
-        backgroundColor: 'lightgray',
+        backgroundColor: '#FFFAFA', //old lace
+        borderColor: '#936589', //light plum
+        borderWidth: 1,
+        padding: 14,
+        borderRadius: 8,
+        marginTop: 10,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2, },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
     },
     buttonText: {
-        fontWeight: '600',
-        color: 'black',
+        color: '##FD7F00', //orange
         fontSize: 16,
+        fontWeight: '600',
+        textAlign: 'center',
+    },
+    disabledButton: {
+        backgroundColor: '#E0E0E0', 
+        borderColor: '#B0B0B0', 
+        color: '#A0A0A0', 
+        opacity: 0.6, 
+        shadowColor: 'transparent', 
+        elevation: 0, 
     },
     switchRow: {
+        width: '70%',
+        padding: 10,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
@@ -162,4 +196,26 @@ const styles = StyleSheet.create({
     switchLabel: {
         flex: 1
     },
+
+    //Save button styles
+    saveBtnContainer: {
+        padding: 20,
+        width: '95%',
+    },
+    saveButton: {
+        backgroundColor: '#FD7F00', //orange
+        paddingVertical: 14,
+        borderRadius: 8,
+        marginTop: 10,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2, },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+    }, 
+    saveButtonText: {
+        color: '#FFFAFA', //old lace
+        fontSize: 16,
+        fontWeight: '600',
+        textAlign: 'center',
+    }
 });

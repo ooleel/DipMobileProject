@@ -46,6 +46,7 @@ export default function HomeScreen({navigation}: Props) {
 
                     <View style={styles.btnWrapper}>
                         <TouchableOpacity style={styles.button}>
+                            {/* ADD: onPress={() => navigation.navigate('HowTo')} */}
                             <Text style={styles.buttonText}>How to use this app</Text>
                         </TouchableOpacity>
                     </View> {/* End button wrapper */}
