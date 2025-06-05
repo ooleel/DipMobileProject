@@ -6,8 +6,6 @@ import { createUser } from "./functions/createUser";
 import { generateToken, verifyToken } from "./auth/jwt";
 import { WithId } from "mongodb";
 import bcrypt from "bcrypt";
-import swaggerUi from "swagger-ui-express";
-import swaggerSpec from "./swagger";
 
 const cors = require("cors");
 const app = express();
@@ -29,8 +27,6 @@ interface Bulletin {
   createdBy: string;
   createdAt: Date;
 }
-
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.post("/createuser", async (req: Request, res: Response) => {
   const result = await createUser(req.body);
@@ -192,5 +188,4 @@ app.get("/", (req: Request, res: Response) => {
 
 app.listen(port, "0.0.0.0", () => {
   console.log(`Server is running on port ${port}`);
-  console.log(`Swagger UI available at http://localhost:${port}/api-docs`);
 });
