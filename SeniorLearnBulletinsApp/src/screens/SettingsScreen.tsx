@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 20,
-        backgroundColor: '#FAF9F6', //off-white
+        backgroundColor: '#FAF9F6', 
     },
     wrapper: {
         alignItems: 'center',
@@ -120,11 +120,11 @@ const styles = StyleSheet.create({
         fontSize: 38,
         fontWeight: 'bold',
         marginBottom: 10,
-        color: '#A51589' //plum
+        color: '#A51589' 
     },
     subtitle: {
         fontSize: 20,
-        color: '#031602' //dark green
+        color: '#031602' 
     },
 
     //Layout accessibility styles
@@ -134,7 +134,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         padding: 20,
         width: '90%',
-        borderColor: '#DACFD5', //mauve
+        borderColor: '#DACFD5', 
         borderWidth: 1,
         borderRadius: 8,
         shadowColor: '#000',
@@ -149,10 +149,10 @@ const styles = StyleSheet.create({
     sectionTitle: {
         fontSize: 22,
         fontWeight: 'bold',
-        color: '#936589', //light plum
+        color: '#936589', 
     },
     currentValue: {
-        color: '#031602', //very dark green
+        color: '#031602', 
         marginBottom: 15,
     },
     buttonRow: {
@@ -160,8 +160,8 @@ const styles = StyleSheet.create({
         gap: 25,
     },
     button: {
-        backgroundColor: '#FFFAFA', //old lace
-        borderColor: '#936589', //light plum
+        backgroundColor: '#FFFAFA', 
+        borderColor: '#936589', 
         borderWidth: 1,
         padding: 14,
         borderRadius: 8,
@@ -173,7 +173,7 @@ const styles = StyleSheet.create({
         elevation: 5,
     },
     buttonText: {
-        color: '##FD7F00', //orange
+        color: '##FD7F00', 
         fontSize: 16,
         fontWeight: '600',
         textAlign: 'center',
@@ -203,7 +203,7 @@ const styles = StyleSheet.create({
         width: '95%',
     },
     saveButton: {
-        backgroundColor: '#FD7F00', //orange
+        backgroundColor: '#FD7F00', 
         paddingVertical: 14,
         borderRadius: 8,
         marginTop: 10,
@@ -213,7 +213,7 @@ const styles = StyleSheet.create({
         shadowRadius: 3.84,
     }, 
     saveButtonText: {
-        color: '#FFFAFA', //old lace
+        color: '#FFFAFA', 
         fontSize: 16,
         fontWeight: '600',
         textAlign: 'center',

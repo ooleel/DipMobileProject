@@ -16,10 +16,7 @@ const Stack = createNativeStackNavigator();
 export default function App() {
     //global state for settings 
     const [fontSize, setFontSize] = useState(16);
-    const [settings, setSettings] = useState({
-        brightness: 1,
-        isSoundEnabled: false,
-    });
+    const [settings, setSettings] = useState({isSoundEnabled: false});
     
     const settingsStyle = {fontSize};
 
@@ -101,7 +98,6 @@ export default function App() {
                             setSettings = {setSettings}
                         />}
                 </Stack.Screen>
-
             </Stack.Navigator>
         </NavigationContainer>
   );

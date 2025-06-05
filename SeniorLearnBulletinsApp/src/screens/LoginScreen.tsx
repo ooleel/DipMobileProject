@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 20,
-        backgroundColor: '#FAF9F6', //off-white
+        backgroundColor: '#FAF9F6', 
     },
     wrapper: {
         alignItems: 'center',
@@ -101,18 +101,18 @@ const styles = StyleSheet.create({
         fontSize: 38,
         fontWeight: 'bold',
         marginBottom: 10,
-        color: '#A51589' //plum
+        color: '#A51589' 
     },
     subtitle: {
         fontSize: 20,
-        color: '#A51589' //plum
+        color: '#A51589',
     },
 
     //Login container styles
     loginContainer:{
         padding: 20,
         width: '90%',
-        backgroundColor: '#D0D8C3', //sage green 
+        backgroundColor: '#D0D8C3', 
         borderRadius: 8,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 2, },
@@ -125,7 +125,8 @@ const styles = StyleSheet.create({
     areaTitle: {
         fontSize: 24,
         fontWeight: 'bold',
-        color: '#A51589', //plum
+        color: '#A51589', 
+        paddingBottom: 20,
     },
     emailWrapper: {
         width: '100%',
@@ -136,7 +137,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: '600',
         marginBottom: 4,
-        color: '#031602', //very dark green
+        color: '#031602', 
     },
     input: {
         height: 44,
@@ -146,10 +147,10 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         fontSize: 16,
         paddingHorizontal: 10,
-        color: '#898989', //light gray
+        color: '#898989', 
     },
     loginBtn: {
-        backgroundColor: '#FD7F00', //orange
+        backgroundColor: '#FD7F00', 
         paddingVertical: 14,
         borderRadius: 8,
         marginTop: 10,
@@ -159,7 +160,7 @@ const styles = StyleSheet.create({
         shadowRadius: 3.84,
     },
     loginBtnText: {
-        color: '#FFFAFA', //old lace
+        color: '#FFFAFA', 
         fontSize: 16,
         fontWeight: '600',
         textAlign: 'center',
@@ -180,7 +181,7 @@ const styles = StyleSheet.create({
     pwInput: {
         flex: 1,
         fontSize: 16,
-        color: '#898989', //light gray
+        color: '#898989', 
     },
 
     //other button styles
@@ -190,8 +191,8 @@ const styles = StyleSheet.create({
         gap: 10,
     },
     button: {
-        backgroundColor: '#FFFAFA', //old lace
-        borderColor: '#FD7F00', //orange
+        backgroundColor: '#FFFAFA', 
+        borderColor: '#FD7F00', 
         borderWidth: 1,
         paddingVertical: 14,
         borderRadius: 8,
@@ -203,7 +204,7 @@ const styles = StyleSheet.create({
         elevation: 5,
     },
     buttonText: {
-        color: '##FD7F00', //orange
+        color: '##FD7F00', 
         fontSize: 16,
         fontWeight: '600',
         textAlign: 'center',
