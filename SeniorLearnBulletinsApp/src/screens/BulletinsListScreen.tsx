@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, FlatList, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaView } from 'react-native-safe-area-context';
 //import { useFocusEffect } from '@react-navigation/native';
 //import { fetchBulletins } from '../api/bulletins'; 
 
@@ -25,32 +25,30 @@ export default function BulletinsListScreen({ navigation, settings, settingsStyl
     );
 
     return (
-        <SafeAreaProvider>
-            <SafeAreaView style={styles.container}>
-                <View style={styles.wrapper}>
-                    {/* Main header */}
-                    <View> 
-                        {/* FIXME: header */}
-                        <Text style={styles.title}>SeniorLearn</Text> 
-                        {/* TODO: Add icon here */}
-                        
-                        {/* TODO: Add menu */}
-                    </View>
-
-                    {/* Main content */}
-                    <View style={styles.bulletinsContainer}>
-                        <Text style={styles.subtitle}>Bulletins List</Text>
-                        <FlatList
-                            data={[]} 
-                            renderItem={renderBulletin}
-                            keyExtractor={(item) => item.id.toString()} //each bulletin has a unique id
-                            contentContainerStyle={styles.listContent}
-                        />
-                    </View> {/* End bulletins container */}
+        <SafeAreaView style={styles.container}>
+            <View style={styles.wrapper}>
+                {/* Main header */}
+                <View> 
+                    {/* FIXME: header */}
+                    <Text style={styles.title}>SeniorLearn</Text> 
+                    {/* TODO: Add icon here */}
                     
-                </View> {/* End main header */}
-            </SafeAreaView>
-        </SafeAreaProvider>
+                    {/* TODO: Add menu */}
+                </View>
+
+                {/* Main content */}
+                <View style={styles.bulletinsContainer}>
+                    <Text style={styles.subtitle}>Bulletins List</Text>
+                    <FlatList
+                        data={[]} 
+                        renderItem={renderBulletin}
+                        keyExtractor={(item) => item.id.toString()} //each bulletin has a unique id
+                        contentContainerStyle={styles.listContent}
+                    />
+                </View> {/* End bulletins container */}
+                
+            </View> {/* End main header */}
+        </SafeAreaView>
     );
  }
 

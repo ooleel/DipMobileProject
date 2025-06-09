@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function PostBulletinScreen() {
     //const [value, onChangeText] = React.useState('Write your bulletin here...');
@@ -8,57 +8,55 @@ export default function PostBulletinScreen() {
     //TODO: const handlePost = () => {
 
     return (
-        <SafeAreaProvider>
-            <SafeAreaView style={styles.container}>
-                <View style={styles.wrapper}>
-                    {/* Main header */}
-                    <View> 
-                        {/* FIXME: header */}
-                        <Text style={styles.title}>SeniorLearn</Text> 
-                        {/* TODO: Add icon here */}
-                        
-                        {/* TODO: Add menu */}
+        <SafeAreaView style={styles.container}>
+            <View style={styles.wrapper}>
+                {/* Main header */}
+                <View> 
+                    {/* FIXME: header */}
+                    <Text style={styles.title}>SeniorLearn</Text> 
+                    {/* TODO: Add icon here */}
+                    
+                    {/* TODO: Add menu */}
+                </View>
+
+                {/* Main content */}
+                <View style={styles.postContainer}>
+                    <Text style={styles.subtitle}>Post a new Bulletin</Text>
+
+                    {/* TODO: add (radio) buttons for members/official bulletins*/}
+                    
+                    <View style={styles.postField}>
+                        <Text style={styles.label}>Title</Text>
+                        <TextInput
+                            style={styles.input} 
+                            placeholder="Your post title here" 
+                        />
                     </View>
-
-                    {/* Main content */}
-                    <View style={styles.postContainer}>
-                        <Text style={styles.subtitle}>Post a new Bulletin</Text>
-
-                        {/* TODO: add (radio) buttons for members/official bulletins*/}
-                        
-                        <View style={styles.postField}>
-                            <Text style={styles.label}>Title</Text>
-                            <TextInput
-                                style={styles.input} 
-                                placeholder="Your post title here" 
-                            />
-                        </View>
-                        
-                        <View style={styles.postField}>
-                            <Text style={styles.label}>Content</Text>
-                            <TextInput
-                                editable
-                                multiline
-                                numberOfLines={5}
-                                maxLength={256}
-                                // onChangeText={text => onChangeText(text)}
-                                // value={value}
-                                placeholder="Write your bulletin here..."
-                                placeholderTextColor="#898989"
-                                style={styles.textInput}
-                            />
-                        </View>
+                    
+                    <View style={styles.postField}>
+                        <Text style={styles.label}>Content</Text>
+                        <TextInput
+                            editable
+                            multiline
+                            numberOfLines={5}
+                            maxLength={256}
+                            // onChangeText={text => onChangeText(text)}
+                            // value={value}
+                            placeholder="Write your bulletin here..."
+                            placeholderTextColor="#898989"
+                            style={styles.textInput}
+                        />
                     </View>
+                </View>
 
-                    {/* onPress={handlePost} */}
-                    <View style={styles.postBtnContainer}>
-                        <TouchableOpacity style={styles.postButton}>
-                            <Text style={styles.postButtonText}>Post</Text>
-                        </TouchableOpacity>
-                    </View> {/* End post button container */}
-                </View> {/* End main container */}
-            </SafeAreaView>
-        </SafeAreaProvider>
+                {/* onPress={handlePost} */}
+                <View style={styles.postBtnContainer}>
+                    <TouchableOpacity style={styles.postButton}>
+                        <Text style={styles.postButtonText}>Post</Text>
+                    </TouchableOpacity>
+                </View> {/* End post button container */}
+            </View> {/* End main container */}
+        </SafeAreaView>
     );
  }
 

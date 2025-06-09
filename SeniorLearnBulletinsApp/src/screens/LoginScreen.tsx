@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native'; 
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
 interface Props {
@@ -23,66 +23,63 @@ export default function LoginScreen({navigation}: Props) {
     };
 
     return (
-        <SafeAreaProvider>
-             <SafeAreaView style={styles.container}>
-                <View style={styles.wrapper}> 
-                    {/* FIXME: header */}
-                    <Text style={styles.title}>SeniorLearn</Text> 
-                    {/* TODO: Add icon here */}
-                    <Text style={styles.subtitle}>Connect and learn together</Text>
+        <SafeAreaView style={styles.container}>
+            <View style={styles.wrapper}> 
+                {/* FIXME: header */}
+                <Text style={styles.title}>SeniorLearn</Text> 
+                {/* TODO: Add icon here */}
+                <Text style={styles.subtitle}>Connect and learn together</Text>
 
-                    <View style={styles.loginContainer}>
-                        <Text style={styles.areaTitle}>Log in</Text>
+                <View style={styles.loginContainer}>
+                    <Text style={styles.areaTitle}>Log in</Text>
 
-                        <View style={styles.emailWrapper}>
-                            <Text style={styles.label}>Email</Text>
+                    <View style={styles.emailWrapper}>
+                        <Text style={styles.label}>Email</Text>
+                        <TextInput 
+                            style={styles.input} 
+                            placeholder="youremail@here.com" 
+                            keyboardType="email-address" 
+                            autoCapitalize="none"
+                        />
+
+                        <Text style={styles.label}>Password</Text>
+                        <View style={styles.pwInputWrapper}> 
                             <TextInput 
-                                style={styles.input} 
-                                placeholder="youremail@here.com" 
-                                keyboardType="email-address" 
+                                style={styles.pwInput} 
+                                placeholder="Your password here"
+                                secureTextEntry = {!showPassword}
+                                value = {password}
+                                onChangeText = {setPassword}
                                 autoCapitalize="none"
                             />
-
-                            <Text style={styles.label}>Password</Text>
-                            <View style={styles.pwInputWrapper}> 
-                                <TextInput 
-                                    style={styles.pwInput} 
-                                    placeholder="Your password here"
-                                    secureTextEntry = {!showPassword}
-                                    value = {password}
-                                    onChangeText = {setPassword}
-                                    autoCapitalize="none"
+                            <TouchableOpacity onPress={toggleShowPassword}> 
+                                <Ionicons 
+                                    name={showPassword ? "eye-off" : "eye"} 
+                                    size={24} 
+                                    color="black" 
                                 />
-                                <TouchableOpacity onPress={toggleShowPassword}> 
-                                    <Ionicons 
-                                        name={showPassword ? "eye-off" : "eye"} 
-                                        size={24} 
-                                        color="black" 
-                                    />
-                                </TouchableOpacity>
-                            </View> {/* End pwInputWrapper */}
-
-                            <TouchableOpacity style={styles.loginBtn} onPress={handleLogin}>
-                                <Text style={styles.loginBtnText}>Log in</Text>
                             </TouchableOpacity>
-                        </View> {/* End inputContainer */}
-                    </View> {/* End loginContainer */}
+                        </View> {/* End pwInputWrapper */}
 
-                    <View style={styles.btnWrapper}>
-                        {/* or hyperlink?? */}
-                        {/* TODO: add onPress */}
-                        <TouchableOpacity style={styles.button}>
-                                <Text style={styles.buttonText}>Forgot my password</Text>
+                        <TouchableOpacity style={styles.loginBtn} onPress={handleLogin}>
+                            <Text style={styles.loginBtnText}>Log in</Text>
                         </TouchableOpacity>
+                    </View> {/* End inputContainer */}
+                </View> {/* End loginContainer */}
 
-                        <TouchableOpacity style={styles.button}>
-                                <Text style={styles.buttonText}>Create a new account</Text>
-                        </TouchableOpacity>
-                    </View>
-                </View> {/* End wrapper */}
-            </SafeAreaView>
-        </SafeAreaProvider>
-       
+                <View style={styles.btnWrapper}>
+                    {/* or hyperlink?? */}
+                    {/* TODO: add onPress */}
+                    <TouchableOpacity style={styles.button}>
+                            <Text style={styles.buttonText}>Forgot my password</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={styles.button}>
+                            <Text style={styles.buttonText}>Create a new account</Text>
+                    </TouchableOpacity>
+                </View>
+            </View> {/* End wrapper */}
+        </SafeAreaView>
     );
 }
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaView } from 'react-native-safe-area-context';
 //FIXME: Add useState for font size? 
 
 interface Props {
@@ -13,54 +13,52 @@ interface Props {
 //TODO: add ", settings, settingsStyle" to Props ↓ when Settings will be implemented
 export default function HomeScreen({navigation}: Props) {
     return (
-        <SafeAreaProvider>
-            <SafeAreaView style={styles.container}>
-                <View style={styles.wrapper}>
-                    {/* Main header */}
-                    <View> 
-                        {/* FIXME: header */}
-                        <Text style={styles.title}>SeniorLearn</Text> 
-                        {/* TODO: Add icon here */}
-                        
-                        {/* TODO: Add menu */}
-                    </View>
+        <SafeAreaView style={styles.container}>
+            <View style={styles.wrapper}>
+                {/* Main header */}
+                <View> 
+                    {/* FIXME: header */}
+                    <Text style={styles.title}>SeniorLearn</Text> 
+                    {/* TODO: Add icon here */}
+                    
+                    {/* TODO: Add menu */}
+                </View>
 
-                    {/* Main content */}
-                    <View style={styles.homeContainer}> 
-                        <Text style={styles.subtitle}>Have a look</Text>
-                        <View style={styles.btnWrapper}>
-                            <TouchableOpacity 
-                                style={styles.button} 
-                                onPress={() => navigation.navigate('BulletinsList')}
-                            >
-                                <Text style={styles.buttonText}>View Bulletins</Text>
-                            </TouchableOpacity>
-
-                            <TouchableOpacity 
-                                style={styles.button} 
-                                onPress={() => navigation.navigate('PostBulletin')}
-                            >
-                                <Text style={styles.buttonText}>Post a new Bulletin</Text>
-                            </TouchableOpacity>
-
-                            <TouchableOpacity 
-                                style={styles.button} 
-                                onPress={() => navigation.navigate('Settings')}
-                            >
-                                <Text style={styles.buttonText}>Settings</Text>
-                            </TouchableOpacity>
-                        </View> {/* End button container */}
-                    </View> {/* End home container */}
-
+                {/* Main content */}
+                <View style={styles.homeContainer}> 
+                    <Text style={styles.subtitle}>Have a look</Text>
                     <View style={styles.btnWrapper}>
-                        <TouchableOpacity style={styles.buttonHowTo}>
-                            {/* ADD: onPress={() => navigation.navigate('HowTo')} */}
-                            <Text style={styles.buttonText}>How to use this app</Text>
+                        <TouchableOpacity 
+                            style={styles.button} 
+                            onPress={() => navigation.navigate('BulletinsList')}
+                        >
+                            <Text style={styles.buttonText}>View Bulletins</Text>
                         </TouchableOpacity>
-                    </View> {/* End button wrapper */}
-                </View> {/* End main container */}
-            </SafeAreaView>
-        </SafeAreaProvider>
+
+                        <TouchableOpacity 
+                            style={styles.button} 
+                            onPress={() => navigation.navigate('PostBulletin')}
+                        >
+                            <Text style={styles.buttonText}>Post a new Bulletin</Text>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity 
+                            style={styles.button} 
+                            onPress={() => navigation.navigate('Settings')}
+                        >
+                            <Text style={styles.buttonText}>Settings</Text>
+                        </TouchableOpacity>
+                    </View> {/* End button container */}
+                </View> {/* End home container */}
+
+                <View style={styles.btnWrapper}>
+                    <TouchableOpacity style={styles.buttonHowTo}>
+                        {/* ADD: onPress={() => navigation.navigate('HowTo')} */}
+                        <Text style={styles.buttonText}>How to use this app</Text>
+                    </TouchableOpacity>
+                </View> {/* End button wrapper */}
+            </View> {/* End main container */}
+        </SafeAreaView>
     );
  }
 

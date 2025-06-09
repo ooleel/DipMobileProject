@@ -1,42 +1,40 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function BulletinDetailsScreen() {
     return (
-        <SafeAreaProvider>
-            <SafeAreaView style={styles.container}>
-                <View style={styles.wrapper}>
-                    {/* Main header */}
-                    <View> 
-                        {/* FIXME: header */}
-                        <Text style={styles.title}>SeniorLearn</Text> 
-                        {/* TODO: Add icon here */}
-                        
-                        {/* TODO: Add menu */}
+        <SafeAreaView style={styles.container}>
+            <View style={styles.wrapper}>
+                {/* Main header */}
+                <View> 
+                    {/* FIXME: header */}
+                    <Text style={styles.title}>SeniorLearn</Text> 
+                    {/* TODO: Add icon here */}
+                    
+                    {/* TODO: Add menu */}
+                </View>
+
+                {/* Main content */}
+                <View style={styles.postContainer}>
+                    <Text style={styles.subtitle}></Text> {/* Post title should be here */}
+                    
+                    <View style={styles.postField}>
+                        <Text style={styles.label}>Content</Text>
+                        <Text
+                            style={styles.postContent}
+                        />
                     </View>
 
-                    {/* Main content */}
-                    <View style={styles.postContainer}>
-                        <Text style={styles.subtitle}></Text> {/* Post title should be here */}
-                        
-                        <View style={styles.postField}>
-                            <Text style={styles.label}>Content</Text>
-                            <Text
-                                style={styles.postContent}
-                            />
-                        </View>
-
-                        <View style={styles.postField}>
-                            <Text style={styles.label}>Tags</Text>
-                            <Text
-                                style={styles.tagsContent} 
-                            />
-                        </View>
+                    <View style={styles.postField}>
+                        <Text style={styles.label}>Tags</Text>
+                        <Text
+                            style={styles.tagsContent} 
+                        />
                     </View>
                 </View>
-            </SafeAreaView>
-        </SafeAreaProvider>
+            </View>
+        </SafeAreaView>
     );
 }
 
