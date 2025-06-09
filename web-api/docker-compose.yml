@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  # MongoDB service
+  mongo:
+    image: mongodb/mongodb-community-server:latest
+    container_name: mongo
+    networks:
+      - web-api-network
+    volumes:
+      - mongo-data:/data/db
+    ports:
+      - "27017:27017"
+
+  # Web-Api service
+  my-ts-app:
+    build: .
+    container_name: web-api
+    ports:
+      - "3000:3000"
+    networks:
+      - web-api-network
+    depends_on:
+      - mongo
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/seniorlearn
+    command: ["npm", "run", "start"]  
+
+networks:
+  web-api-network:
+    driver: bridge
+
+volumes:
+  mongo-data:
+    driver: local
