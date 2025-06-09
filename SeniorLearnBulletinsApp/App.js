@@ -97,11 +97,19 @@ function AppDrawer({ user, signOut, settings, setSettings }) {
                 options={{ title: 'Home' }}
             >
                 {() => (
-                    <Stack.Navigator>
+                    <Stack.Navigator
+                        screenOptions={{ 
+                            headerTitle: 'SeniorLearn',
+                            headerBackTitle: 'Back',
+                        }}
+                    >
                         <Stack.Screen 
                             name="Home" 
                             component={HomeScreen} 
-                        />
+                        >
+                            {props => (<HomeScreen {...props} settings={settings} setSettings={setSettings}/>
+                            )}
+                        </Stack.Screen>
                         <Stack.Screen 
                             name="BulletinsList" 
                             component={BulletinsListScreen} 

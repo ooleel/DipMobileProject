@@ -1,28 +1,21 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-//FIXME: Add useState for font size? 
+import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView } from 'react-native';
 
 interface Props {
     navigation: any;
     settings?: any;
-    settingsStyle?: any;
+    settingsStyle?: { fontSize: number; };
+    route: { params: { user: { role: string } } };
 }
 
-//FIXME: "← Home" = "← back" + screen name ????
-//TODO: add ", settings, settingsStyle" to Props ↓ when Settings will be implemented
-export default function HomeScreen({navigation}: Props) {
+export default function HomeScreen({ navigation, settingsStyle, route }: Props) {
+    const { user } = route.params;
+
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.wrapper}>
                 {/* Main header */}
-                <View> 
-                    {/* FIXME: header */}
-                    <Text style={styles.title}>SeniorLearn</Text> 
-                    {/* TODO: Add icon here */}
-                    
-                    {/* TODO: Add menu */}
-                </View>
+                <Text style={[styles.title, settingsStyle]}>SeniorLearn</Text> 
 
                 {/* Main content */}
                 <View style={styles.homeContainer}> 
@@ -32,35 +25,48 @@ export default function HomeScreen({navigation}: Props) {
                             style={styles.button} 
                             onPress={() => navigation.navigate('BulletinsList')}
                         >
-                            <Text style={styles.buttonText}>View Bulletins</Text>
+                            <Text style={[styles.buttonText, settingsStyle]}>View Bulletins</Text>
                         </TouchableOpacity>
 
+                        {/* FIXME: Post an official bulletin??? */}
                         <TouchableOpacity 
                             style={styles.button} 
                             onPress={() => navigation.navigate('PostBulletin')}
                         >
-                            <Text style={styles.buttonText}>Post a new Bulletin</Text>
+                            <Text style={[styles.buttonText, settingsStyle]}>Post a new Bulletin</Text>
                         </TouchableOpacity>
 
                         <TouchableOpacity 
                             style={styles.button} 
                             onPress={() => navigation.navigate('Settings')}
                         >
-                            <Text style={styles.buttonText}>Settings</Text>
+                            <Text style={[styles.buttonText, settingsStyle]}>Settings</Text>
                         </TouchableOpacity>
                     </View> {/* End button container */}
                 </View> {/* End home container */}
 
                 <View style={styles.btnWrapper}>
                     <TouchableOpacity style={styles.buttonHowTo}>
-                        {/* ADD: onPress={() => navigation.navigate('HowTo')} */}
+                        {/* TODO: onPress={() => navigation.navigate('HowTo')} */}
                         <Text style={styles.buttonText}>How to use this app</Text>
                     </TouchableOpacity>
                 </View> {/* End button wrapper */}
             </View> {/* End main container */}
         </SafeAreaView>
     );
- }
+}
+
+//post an official bulletin
+/*
+{user.role === 'admin' && (
+    <TouchableOpacity 
+        style={styles.button} 
+        onPress={() => navigation.navigate('PostBulletin')}
+    >
+        <Text style={[styles.buttonText, settingsStyle]}>Post a new Bulletin</Text>
+    </TouchableOpacity>
+)}
+*/
 
 const styles = StyleSheet.create({
     //Main container styles
