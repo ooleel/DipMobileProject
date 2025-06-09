@@ -1,58 +1,43 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Switch } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-//FIXME: Add useState for font size? 
+import { View, Text, StyleSheet, TouchableOpacity, Switch, SafeAreaView } from 'react-native';
 
 interface Props {
     navigation: any;
-    fontSize: number;
-    setFontSize: (size: number) => void;
     settings: {
-        brightness: number;
+        fontSize: number;
         isSoundEnabled: boolean;
     };
-    setSettings: (settings: any) => void;
+    // React.Dispatch = 
+    setSettings: React.Dispatch<
+        React.SetStateAction<{
+            fontSize: number;
+            isSoundEnabled: boolean;
+        }>
+    >;
 }
 
-//FIXME: "← Settings" fix navigation
-export default function SettingsScreen({ navigation, fontSize, setFontSize, settings, setSettings }: Props) {
-    //Font size state and functions
-    const increaseFontSize = () => {
-        if (fontSize < 30) {
-            setFontSize(fontSize + 2);
-        }
-    };
-    const decreaseFontSize = () => {
-        if (fontSize > 14) {
-            setFontSize(fontSize - 2);
-        }
-    };
+export default function SettingsScreen({ navigation, settings, setSettings }: Props) {
+    const { fontSize, isSoundEnabled } = settings;
 
-    //High contrast mode state
-    //Dark mode 
+    //High contrast mode state??
+    //Dark mode??
     
-    //Sound toggle function
-    const toggleSound = () => {
-        setSettings({
-            ...settings,
-            isSoundEnabled: !settings.isSoundEnabled,
-        });
+    //Sound toggle 
+    const toggleSound = (val: boolean) => {
+        setSettings(s => ({...s, isSoundEnabled: val}));
     };
 
-    //Save settings function
-    const handleSave = () => {
-        navigation.goBack(); //back to previous screen (Home)
+    //Font size
+    const increaseFont = () => {
+        setSettings(s => ({...s, fontSize: s.fontSize + 2}));
+    };
+    const decreaseFont = () => {
+        setSettings(s => ({...s, fontSize: Math.max(12, s.fontSize - 2)}));
     };
 
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.wrapper}>
-                {/* FIXME: header */}
-                <Text style={styles.title}>SeniorLearn</Text> 
-                {/* TODO: Add icon here */}
-                
-                {/* TODO: Add menu */}
-
                 <Text style={styles.subtitle}>Settings</Text>
 
                 <View style={styles.layoutContainer}>
@@ -61,18 +46,16 @@ export default function SettingsScreen({ navigation, fontSize, setFontSize, sett
                         Current font size: {fontSize}px
                     </Text>
 
-                    <View style={styles.buttonRow}>
+                    <View style={styles.fontControls}>
                         <TouchableOpacity 
                             style={[styles.button, fontSize <= 14 && styles.disabledButton]}
-                            onPress={decreaseFontSize} 
-                            disabled={fontSize <= 14}
+                            onPress={decreaseFont} 
                         >
                             <Text style={styles.buttonText}>Smaller</Text>
                         </TouchableOpacity>
                         <TouchableOpacity 
                             style={[styles.button, fontSize >= 30 && styles.disabledButton]}
-                            onPress={increaseFontSize} 
-                            disabled={fontSize >= 30}
+                            onPress={increaseFont} 
                         >
                             <Text style={styles.buttonText}>Larger</Text>
                         </TouchableOpacity>
@@ -91,7 +74,7 @@ export default function SettingsScreen({ navigation, fontSize, setFontSize, sett
                 </View> {/* End sound container */}
 
                 <View style={styles.saveBtnContainer}>
-                    <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
+                    <TouchableOpacity style={styles.saveButton} onPress={() => navigation.goBack()}>
                         <Text style={styles.saveButtonText}>Save settings</Text>
                     </TouchableOpacity>
                 </View> {/* End save button container */}
@@ -151,7 +134,7 @@ const styles = StyleSheet.create({
         color: '#031602', 
         marginBottom: 15,
     },
-    buttonRow: {
+    fontControls: {
         flexDirection: 'row',
         gap: 25,
     },
@@ -169,7 +152,7 @@ const styles = StyleSheet.create({
         elevation: 5,
     },
     buttonText: {
-        color: '##FD7F00', 
+        color: '#FD7F00', 
         fontSize: 16,
         fontWeight: '600',
         textAlign: 'center',
