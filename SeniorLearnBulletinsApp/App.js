@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import { Alert, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
@@ -16,7 +16,7 @@ import SettingsScreen from './src/screens/SettingsScreen';
 //import AboutScreen from './src/screens/AboutScreen';
 
 //Stack navigator
-const Stack = createStackNavigator();
+const Stack = createNativeStackNavigator();
 //Drawer navigator
 const Drawer = createDrawerNavigator();
 
