@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native'; 
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, Image, Alert } from 'react-native'; 
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
@@ -11,11 +11,20 @@ interface Props {
 
 export default function LoginScreen({navigation}: Props) {
     const handleLogin = () => {
+        if (!email.trim() || !password) {
+            Alert.alert('Error', 'Please enter both email and password.');
+            return;
+        }
+
+        //TODO: call api and verif credentials here
+        const userEx = { email, role: 'member' };
+
         //Navigate to Home after login
-        navigation.navigate('Home');
+        navigation.replace('HomeStack', { user: userEx } ); 
     };
 
     // State for password input and show/hide password toggle
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const toggleShowPassword = () => {
@@ -25,9 +34,14 @@ export default function LoginScreen({navigation}: Props) {
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.wrapper}> 
-                {/* FIXME: header */}
-                <Text style={styles.title}>SeniorLearn</Text> 
-                {/* TODO: Add icon here */}
+                <Text style={styles.title}>
+                    SeniorLearn
+                    <Image 
+                        style={{width: 30, height: 30, marginLeft: 10}}
+                        source={require('../../assets/images/hat-pixel.png')} 
+                    />
+                </Text> 
+
                 <Text style={styles.subtitle}>Connect and learn together</Text>
 
                 <View style={styles.loginContainer}>
@@ -37,9 +51,11 @@ export default function LoginScreen({navigation}: Props) {
                         <Text style={styles.label}>Email</Text>
                         <TextInput 
                             style={styles.input} 
-                            placeholder="youremail@here.com" 
                             keyboardType="email-address" 
                             autoCapitalize="none"
+                            placeholder="youremail@here.com" 
+                            value={email}
+                            onChangeText={setEmail}
                         />
 
                         <Text style={styles.label}>Password</Text>
@@ -77,7 +93,7 @@ export default function LoginScreen({navigation}: Props) {
                     <TouchableOpacity style={styles.button}>
                             <Text style={styles.buttonText}>Create a new account</Text>
                     </TouchableOpacity>
-                </View>
+                </View> {/* End button wrapper */}
             </View> {/* End wrapper */}
         </SafeAreaView>
     );
@@ -201,7 +217,7 @@ const styles = StyleSheet.create({
         elevation: 5,
     },
     buttonText: {
-        color: '##FD7F00', 
+        color: '#FD7F00', 
         fontSize: 16,
         fontWeight: '600',
         textAlign: 'center',

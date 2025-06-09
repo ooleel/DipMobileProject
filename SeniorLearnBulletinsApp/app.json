@@ -4,7 +4,7 @@
     "slug": "SeniorLearnBulletinsApp",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/",
+    "icon": "./assets/images/haticon.png",
     "scheme": "seniorlearnbulletinsapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -13,7 +13,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/favicon-32x32.png",
+        "foregroundImage": "./assets/images/haticon.png",
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true
@@ -22,7 +22,7 @@
       [
         "expo-splash-screen",
         {
-          "image": "SeniorLearnBulletinsApp/assets/images/favicon-32x32.png",
+          "image": "./assets/images/haticon.png",
           "imageWidth": 200,
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
