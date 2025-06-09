@@ -56,7 +56,7 @@ app.post("/login", async (req: Request, res: Response): Promise<any> => {
   if (!isMatch) return res.status(401).json({ message: "Invalid credentials" });
 
   const token = generateToken({ userId: user._id, email: user.email });
-  res.json({ token });
+  res.status(201).json({ token });
 });
 
 app.get("/users", async (req: Request, res: Response) => {
@@ -189,3 +189,5 @@ app.get("/", (req: Request, res: Response) => {
 app.listen(port, "0.0.0.0", () => {
   console.log(`Server is running on port ${port}`);
 });
+
+export default app;
