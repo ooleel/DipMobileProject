@@ -5,12 +5,10 @@ interface Props {
     navigation: any;
     settings?: any;
     settingsStyle?: { fontSize: number; };
-    route: { params: { user: { role: string } } };
+    user: { role: string; email: string; username?: string; };
 }
 
-export default function HomeScreen({ navigation, settingsStyle, route }: Props) {
-    const { user } = route.params;
-
+export default function HomeScreen({ navigation, settingsStyle, user }: Props) {
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.wrapper}>

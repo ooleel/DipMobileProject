@@ -24,8 +24,13 @@ function AuthStack({ onLogin }) {
     return (
         <Stack.Navigator screenOptions={{ headerShown: false }}>
             <Stack.Screen name="Login">
-                {props => <LoginScreen onLogin={onLogin} />}
+                {props => <LoginScreen {...props} onLogin={onLogin} />}
             </Stack.Screen>
+            {/* <Stack.Screen
+                name="GuestBulletinsList"
+                component={BulletinsListScreen}
+                headerBackTitle="Back to Login"
+            /> */}
         </Stack.Navigator>
     );
 }
@@ -43,7 +48,6 @@ function CustomDrawerContent({user, signOut, ...props}) {
                     text: 'Yes, exit',
                     onPress: () => {
                         signOut();
-                        props.navigation.reset({ routes: [{ name: 'Login' }]});
                     },
                     style: 'destructive'
                 }
@@ -59,7 +63,7 @@ function CustomDrawerContent({user, signOut, ...props}) {
             <Text
                 style={{margin: 16, fontWeight: 'bold', fontSize: 18}}
             >
-                {user.username}
+                {user.username || user.email || 'Guest'}
             </Text>
 
             {/* Drawer items */}
@@ -107,7 +111,7 @@ function AppDrawer({ user, signOut, settings, setSettings }) {
                             name="Home" 
                             component={HomeScreen} 
                         >
-                            {props => (<HomeScreen {...props} settings={settings} setSettings={setSettings}/>
+                            {props => (<HomeScreen {...props} settings={settings} setSettings={setSettings} user={user}/>
                             )}
                         </Stack.Screen>
                         <Stack.Screen 
@@ -154,9 +158,13 @@ export default function App() {
     const [user, setUser] = useState(null);
 
     //keep settings state in App:
-    const [settings, setSettings] = useState({});
+    const [settings, setSettings] = useState({
+        fontSize: 16,
+        isSoundEnabled: true
+    });
 
     const signIn = userInfo => setUser(userInfo);
+    //const signInAsGuest = () => setUser({ email: 'guest', username: 'Guest', role: 'guest' });
     const signOut = () => setUser(null);
 
     return (
@@ -168,9 +176,10 @@ export default function App() {
                         settings={settings} setSettings={setSettings}
                     />
                 ) : (
-                    <AuthStack onLogin={signIn} />
+                    <AuthStack onLogin={signIn}/>
                 )}
             </NavigationContainer>
         </SafeAreaProvider>
+        //onPress={onGuestLogin}
     );
 }

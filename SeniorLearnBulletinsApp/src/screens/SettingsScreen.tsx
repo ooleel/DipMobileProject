@@ -1,23 +1,19 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Switch, SafeAreaView } from 'react-native';
 
+interface SettingsType {
+    fontSize: number;
+    isSoundEnabled: boolean;
+}
+
 interface Props {
     navigation: any;
-    settings: {
-        fontSize: number;
-        isSoundEnabled: boolean;
-    };
-    // React.Dispatch = 
-    setSettings: React.Dispatch<
-        React.SetStateAction<{
-            fontSize: number;
-            isSoundEnabled: boolean;
-        }>
-    >;
+    settings: SettingsType;
+    setSettings: React.Dispatch<React.SetStateAction<SettingsType>>;
 }
 
 export default function SettingsScreen({ navigation, settings, setSettings }: Props) {
-    const { fontSize, isSoundEnabled } = settings;
+    const { fontSize = 16, isSoundEnabled = true } = settings;
 
     //High contrast mode state??
     //Dark mode??
@@ -29,10 +25,14 @@ export default function SettingsScreen({ navigation, settings, setSettings }: Pr
 
     //Font size
     const increaseFont = () => {
-        setSettings(s => ({...s, fontSize: s.fontSize + 2}));
+        if (fontSize < 30) {
+            setSettings(s => ({...s, fontSize: s.fontSize + 2}));
+        }
     };
     const decreaseFont = () => {
-        setSettings(s => ({...s, fontSize: Math.max(12, s.fontSize - 2)}));
+        if (fontSize >   12) {
+            setSettings(s => ({...s, fontSize: s.fontSize - 2}));
+        }
     };
 
     return (
@@ -48,16 +48,18 @@ export default function SettingsScreen({ navigation, settings, setSettings }: Pr
 
                     <View style={styles.fontControls}>
                         <TouchableOpacity 
-                            style={[styles.button, fontSize <= 14 && styles.disabledButton]}
-                            onPress={decreaseFont} 
+                            style={[styles.button, fontSize <= 12 && styles.disabledButton]}
+                            onPress={fontSize > 12 ? decreaseFont : undefined} 
+                            disabled={fontSize <= 12}
                         >
-                            <Text style={styles.buttonText}>Smaller</Text>
+                            <Text style={[styles.buttonText, fontSize <= 12 && styles.disabledButtonText]}>Smaller</Text>
                         </TouchableOpacity>
                         <TouchableOpacity 
                             style={[styles.button, fontSize >= 30 && styles.disabledButton]}
-                            onPress={increaseFont} 
+                            onPress={fontSize < 30 ? increaseFont : undefined}
+                            disabled={fontSize >= 30} 
                         >
-                            <Text style={styles.buttonText}>Larger</Text>
+                            <Text style={[styles.buttonText, fontSize >= 30 && styles.disabledButtonText]}>Larger</Text>
                         </TouchableOpacity>
                     </View> {/* End button row */}
                 </View> {/* End font container */}
@@ -66,10 +68,10 @@ export default function SettingsScreen({ navigation, settings, setSettings }: Pr
                     <Text style={styles.sectionTitle}>Sound</Text>
                     <Text style={[styles.switchLabel, {fontSize}]}>Enable sound</Text>
                     <Switch
-                        value={settings.isSoundEnabled}
+                        value={isSoundEnabled}
                         onValueChange={toggleSound}
                         trackColor={{ false: '#E28378', true: '#53A267' }}
-                        thumbColor={settings.isSoundEnabled ? '#305F3C' : '#D23D2D'}
+                        thumbColor={isSoundEnabled ? '#305F3C' : '#D23D2D'}
                     />
                 </View> {/* End sound container */}
 
@@ -83,7 +85,7 @@ export default function SettingsScreen({ navigation, settings, setSettings }: Pr
     );
 }
 
-//TODO: add colours and styles for disabled buttons
+//TODO: add colours and styles for disabled buttons?
 const styles = StyleSheet.create({
     //Main container styles
     container: {
@@ -164,6 +166,9 @@ const styles = StyleSheet.create({
         opacity: 0.6, 
         shadowColor: 'transparent', 
         elevation: 0, 
+    },
+    disabledButtonText: {
+        color: '#A0A0A0', 
     },
     switchRow: {
         width: '70%',
