@@ -10,24 +10,87 @@ interface Props {
     settingsStyle?: any;
 }
 
+const API_BASE_URL = 'http://localhost:3000/api/bulletins'; //FIXME: update
+
 export default function LoginScreen({onLogin, onGuestLogin}: Props) {
-    const handleLogin = () => {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
+    const [IsLoggingIn, setIsLoggingIn] = useState(false);
+
+    const handleLogin = async () => {
         if (!email.trim() || !password) {
             Alert.alert('Error', 'Please enter both email and password.');
             return;
         }
 
-        //TODO: call api and verif credentials here
-        const userEx = { email, username: email, role: 'member' };
+        setIsLoggingIn(true);
 
-        //call the onLogin prop with user info to update the app state
-        onLogin(userEx); 
+        try {
+            const response = await fetch(`${API_BASE_URL}/login`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ 
+                    email: email.trim().toLowerCase(), 
+                    password: password,
+                }),
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                //fetch user details with token
+                const userResponse = await fetch(`${API_BASE_URL}/user/profile`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': data.token,
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (userResponse.ok) {
+                const userData = await userResponse.json();
+                const userInfo = {
+                    ...userData.user,
+                    token: data.token,
+                    email: email.trim().toLowerCase(),
+                };
+                onLogin(userInfo); 
+            } else {
+                //fallback creating user from email
+                const userInfo = {
+                    email: email.trim().toLowerCase(),
+                    username: email.trim().toLowerCase(),
+                    name: email.split('@')[0],
+                    role: 'member',
+                    token: data.token,
+                };
+                onLogin(userInfo);
+            }
+            } else {
+                Alert.alert('Login Failed', data.message || 'Invalid credentials, please try again.');
+            }
+        } catch (error) {
+            console.error('Login error:', error);
+            Alert.alert('Error', 'An error occurred while logging in. Please try again later.');
+        } finally {
+            setIsLoggingIn(false);
+        }
     };
 
-    // State for password input and show/hide password toggle
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [showPassword, setShowPassword] = useState(false);
+    const handleGuestLogin = () => {
+        Alert.alert(
+            'Guest Access',
+            'You will have limited access to official bulletinsand cannot post or view member bulletins.',
+            [
+                { text: 'Cancel', style: 'cancel' },
+                { text: 'Continue as Guest', onPress: onGuestLogin }
+            ]
+        );
+    };
+
     const toggleShowPassword = () => {
         setShowPassword(!showPassword);
     };
@@ -57,6 +120,7 @@ export default function LoginScreen({onLogin, onGuestLogin}: Props) {
                             placeholder="youremail@here.com" 
                             value={email}
                             onChangeText={setEmail}
+                            editable={!IsLoggingIn}
                         />
 
                         <Text style={styles.label}>Password</Text>
@@ -68,25 +132,28 @@ export default function LoginScreen({onLogin, onGuestLogin}: Props) {
                                 value = {password}
                                 onChangeText = {setPassword}
                                 autoCapitalize="none"
+                                editable={!IsLoggingIn}
                             />
                             <TouchableOpacity onPress={toggleShowPassword}> 
                                 <Ionicons 
                                     name={showPassword ? "eye-off" : "eye"} 
                                     size={24} 
-                                    color="black" 
+                                    color={IsLoggingIn ? "#ccc" : "black"} 
                                 />
                             </TouchableOpacity>
                         </View> {/* End pwInputWrapper */}
 
                         <TouchableOpacity style={styles.loginBtn} onPress={handleLogin}>
-                            <Text style={styles.loginBtnText}>Log in</Text>
+                            <Text style={styles.loginBtnText}>
+                                {IsLoggingIn ? 'Logging in...' : 'Log in'}
+                            </Text>
                         </TouchableOpacity>
                     </View> {/* End inputContainer */}
                 </View> {/* End loginContainer */}
 
                 {/* Guest access */}
                 <View style={styles.btnWrapper}>
-                    <TouchableOpacity style={styles.guestBtn} onPress={onGuestLogin}>
+                    <TouchableOpacity style={[styles.guestBtn, IsLoggingIn && styles.buttonDisabled]} onPress={onGuestLogin} disabled={IsLoggingIn}>
                         <Text style={styles.guestBtnText}>Guest access to official bulletins</Text>
                     </TouchableOpacity>
 
@@ -246,5 +313,9 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: '600',
         textAlign: 'center',
+    },
+    buttonDisabled: {
+        backgroundColor: '#ccc',
+        borderColor: '#ccc',
     },
 });

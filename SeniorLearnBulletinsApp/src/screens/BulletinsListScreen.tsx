@@ -31,7 +31,6 @@ export default function BulletinsListScreen({ navigation, settings, user, route 
     const isGuest = user?.role === 'guest';
     const canViewMemberPosts = user && !isGuest;
 
-    //TODO: fetchBulletins + useFocusEffect
     const fetchBulletins = async (type: 'official' | 'member') => {
         setLoading(true);
         try {
@@ -73,7 +72,6 @@ export default function BulletinsListScreen({ navigation, settings, user, route 
         }, [activeTab]) //FIXME: "React Hook React.useCallback has a missing dependency: 'fetchBulletins'. Either include it or remove the dependency array"
     );
 
-    //TODO: handleTabChange
     const handleTabChange = (tab: 'official' | 'member') => {
         if (tab === 'member' && !canViewMemberPosts) {
             Alert.alert('Access Denied', 'PLease log in to view member posts.');
@@ -82,7 +80,6 @@ export default function BulletinsListScreen({ navigation, settings, user, route 
         setActiveTab(tab);
     };
 
-    //TODO: fix renderBulletin
     const renderBulletin = ({ item }: { item: Bulletin }) => {
         const settingsStyle = settings ? {
             fontSize : settings.fontSize || 16,
@@ -105,7 +102,6 @@ export default function BulletinsListScreen({ navigation, settings, user, route 
         );
     };
 
-    //TODO: renderEmptyList 
     const renderEmptyList = () => (
         <View style={styles.emptyContainer}>
             <Text style={styles.emptyText}>
@@ -114,7 +110,6 @@ export default function BulletinsListScreen({ navigation, settings, user, route 
         </View>
     ); 
 
-    //TODO: fix main return
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.wrapper}>
