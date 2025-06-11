@@ -20,11 +20,11 @@ const Stack = createNativeStackNavigator();
 //Drawer navigator
 const Drawer = createDrawerNavigator();
 
-function AuthStack({ onLogin }) {
+function AuthStack({ onLogin, onGuestLogin }) {
     return (
         <Stack.Navigator screenOptions={{ headerShown: false }}>
             <Stack.Screen name="Login">
-                {props => <LoginScreen {...props} onLogin={onLogin} />}
+                {props => <LoginScreen {...props} onLogin={onLogin} onGuestLogin={onGuestLogin} />}
             </Stack.Screen>
             {/* <Stack.Screen
                 name="GuestBulletinsList"
@@ -63,7 +63,7 @@ function CustomDrawerContent({user, signOut, ...props}) {
             <Text
                 style={{margin: 16, fontWeight: 'bold', fontSize: 18}}
             >
-                {user.username || user.email || 'Guest'}
+                {user.username || user.email || user.name || 'Guest'}
             </Text>
 
             {/* Drawer items */}
@@ -117,15 +117,24 @@ function AppDrawer({ user, signOut, settings, setSettings }) {
                         <Stack.Screen 
                             name="BulletinsList" 
                             component={BulletinsListScreen} 
-                        />
+                        >
+                            {props => (<BulletinsListScreen {...props} settings={settings} user={user}/>
+                            )}
+                        </Stack.Screen>
                         <Stack.Screen 
                             name="BulletinDetails" 
                             component={BulletinDetailsScreen} 
-                        />
+                        >
+                            {props => (<BulletinDetailsScreen {...props} settings={settings} user={user}/>
+                            )}
+                        </Stack.Screen>
                         <Stack.Screen 
                             name="PostBulletin" 
                             component={PostBulletinScreen} 
-                        />
+                        > 
+                            {props => (<PostBulletinScreen {...props} settings={settings} user={user}/>
+                            )}
+                        </Stack.Screen>
                     </Stack.Navigator>
                 )}
             </Drawer.Screen>
@@ -164,7 +173,7 @@ export default function App() {
     });
 
     const signIn = userInfo => setUser(userInfo);
-    //const signInAsGuest = () => setUser({ email: 'guest', username: 'Guest', role: 'guest' });
+    const signInAsGuest = () => setUser({ email: 'guest', username: 'Guest', role: 'guest' });
     const signOut = () => setUser(null);
 
     return (
@@ -176,7 +185,7 @@ export default function App() {
                         settings={settings} setSettings={setSettings}
                     />
                 ) : (
-                    <AuthStack onLogin={signIn}/>
+                    <AuthStack onLogin={signIn} onGuestLogin={signInAsGuest}/>
                 )}
             </NavigationContainer>
         </SafeAreaProvider>
