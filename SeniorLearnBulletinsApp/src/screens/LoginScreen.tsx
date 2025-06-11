@@ -4,12 +4,13 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
 interface Props {
-    navigation: any;
+    onLogin: (userInfo: any) => void;
+    onGuestLogin: () => void;
     settings?: any;
     settingsStyle?: any;
 }
 
-export default function LoginScreen({navigation}: Props) {
+export default function LoginScreen({onLogin, onGuestLogin}: Props) {
     const handleLogin = () => {
         if (!email.trim() || !password) {
             Alert.alert('Error', 'Please enter both email and password.');
@@ -17,10 +18,10 @@ export default function LoginScreen({navigation}: Props) {
         }
 
         //TODO: call api and verif credentials here
-        const userEx = { email, role: 'member' };
+        const userEx = { email, username: email, role: 'member' };
 
-        //Navigate to Home after login
-        navigation.replace('HomeStack', { user: userEx } ); 
+        //call the onLogin prop with user info to update the app state
+        onLogin(userEx); 
     };
 
     // State for password input and show/hide password toggle
@@ -37,7 +38,7 @@ export default function LoginScreen({navigation}: Props) {
                 <Text style={styles.title}>
                     SeniorLearn
                     <Image 
-                        style={{width: 30, height: 30, marginLeft: 10}}
+                        style={{width: 30, height: 30, marginLeft: 20}}
                         source={require('../../assets/images/hat-pixel.png')} 
                     />
                 </Text> 
@@ -83,7 +84,12 @@ export default function LoginScreen({navigation}: Props) {
                     </View> {/* End inputContainer */}
                 </View> {/* End loginContainer */}
 
+                {/* Guest access */}
                 <View style={styles.btnWrapper}>
+                    <TouchableOpacity style={styles.guestBtn} onPress={onGuestLogin}>
+                        <Text style={styles.guestBtnText}>Guest access to official bulletins</Text>
+                    </TouchableOpacity>
+
                     {/* or hyperlink?? */}
                     {/* TODO: add onPress */}
                     <TouchableOpacity style={styles.button}>
@@ -218,6 +224,25 @@ const styles = StyleSheet.create({
     },
     buttonText: {
         color: '#FD7F00', 
+        fontSize: 16,
+        fontWeight: '600',
+        textAlign: 'center',
+    },
+    guestBtn: {
+        backgroundColor: '#936589', 
+        borderColor: '#936589', 
+        borderWidth: 1,
+        paddingVertical: 14,
+        borderRadius: 8,
+        marginTop: 10,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2, },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
+    },
+    guestBtnText: {
+        color: '#FAF9F6', 
         fontSize: 16,
         fontWeight: '600',
         textAlign: 'center',
