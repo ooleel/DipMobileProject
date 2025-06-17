@@ -31,7 +31,7 @@ export default function BulletinsListScreen({ navigation, settings, user, route 
     const isGuest = user?.role === 'guest';
     const canViewMemberPosts = user && !isGuest;
 
-    const fetchBulletins = async (type: 'official' | 'member') => {
+    const fetchBulletins = useCallback(async (type: 'official' | 'member') => {
         setLoading(true);
         try {
             const headers: any = {
@@ -63,13 +63,13 @@ export default function BulletinsListScreen({ navigation, settings, user, route 
         } finally {
             setLoading(false);
         }
-    };
+    }, [user?.token]);
 
     useFocusEffect(
         React.useCallback(() => {
             //fetch official bulletins by default
             fetchBulletins(activeTab);
-        }, [activeTab]) //FIXME: "React Hook React.useCallback has a missing dependency: 'fetchBulletins'. Either include it or remove the dependency array"
+        }, [activeTab, fetchBulletins]) 
     );
 
     const handleTabChange = (tab: 'official' | 'member') => {
@@ -119,7 +119,7 @@ export default function BulletinsListScreen({ navigation, settings, user, route 
                 </View>
 
                 {/* Tabs for official and member bulletins */}
-                {/* FIXME: add tab styles */}
+                {/* FIXME: change tab styles */}
                 {canViewMemberPosts && (
                     <View style={styles.tabContainer}>
                         <TouchableOpacity
@@ -132,7 +132,7 @@ export default function BulletinsListScreen({ navigation, settings, user, route 
                             style={[styles.tab, activeTab === 'member' && styles.activeTab]}
                             onPress={() => handleTabChange('member')}
                         >
-                            <Text style={[styles.tabText, activeTab === 'member' && styles.activeTabText]}>Official</Text>
+                            <Text style={[styles.tabText, activeTab === 'member' && styles.activeTabText]}>Member</Text>
                         </TouchableOpacity>
                     </View>
                 )} {/* End tabs container */}

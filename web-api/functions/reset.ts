@@ -1,5 +1,7 @@
 import { ObjectId } from "mongodb";
 import { connectToDatabase } from "./mongoClient";
+//FIXME: bcrypt for hashing instead of MD5?
+//import bcrypt from "bcrypt"; 
 
 async function resetDatabase() {
   const db = await connectToDatabase();
@@ -77,6 +79,9 @@ async function resetDatabase() {
   await db.createCollection("sessions");
   console.log("Recreated collections");
 
+  //FIXME: bcrypt for hashing instead of MD5?
+  //const hashedPassword = await bcrypt.hash("password", 10);
+
   // Passwords use md5 for testing purposes
   // All passwords are "password"
   // Change later according to documentation
@@ -84,14 +89,14 @@ async function resetDatabase() {
     {
       name: "Alice",
       email: "alice@example.com",
-      passwordHash: "5f4dcc3b5aa765d61d8327deb882cf99",
+      passwordHash: "5f4dcc3b5aa765d61d8327deb882cf99", //passwordHash: hashedPassword,
       role: "admin",
       createdAt: new Date(),
     },
     {
       name: "Bob",
       email: "bob@example.com",
-      passwordHash: "5f4dcc3b5aa765d61d8327deb882cf99",
+      passwordHash: "5f4dcc3b5aa765d61d8327deb882cf99", //passwordHash: hashedPassword,
       role: "member",
       createdAt: new Date(),
     },

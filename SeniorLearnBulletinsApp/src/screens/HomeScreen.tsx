@@ -4,11 +4,14 @@ import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView } from 'react-na
 interface Props {
     navigation: any;
     settings?: any;
-    settingsStyle?: { fontSize: number; };
+    setSettings?: any;
+    settingsStyle?: { fontSize: number; }; 
     user: { role: string; email: string; username?: string; };
 }
 
-export default function HomeScreen({ navigation, settingsStyle, user }: Props) {
+export default function HomeScreen({ navigation, settings, settingsStyle, user }: Props) {
+    const appliedSettings = settings ? { fontSize: settings.fontSize || 16 } : {};
+
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.wrapper}>
@@ -23,7 +26,7 @@ export default function HomeScreen({ navigation, settingsStyle, user }: Props) {
                             style={styles.button} 
                             onPress={() => navigation.navigate('BulletinsList')}
                         >
-                            <Text style={[styles.buttonText, settingsStyle]}>View Bulletins</Text>
+                            <Text style={[styles.buttonText, appliedSettings]}>View Bulletins</Text>
                         </TouchableOpacity>
 
                         {/* FIXME: Post an official bulletin??? */}
@@ -31,14 +34,14 @@ export default function HomeScreen({ navigation, settingsStyle, user }: Props) {
                             style={styles.button} 
                             onPress={() => navigation.navigate('PostBulletin')}
                         >
-                            <Text style={[styles.buttonText, settingsStyle]}>Post a new Bulletin</Text>
+                            <Text style={[styles.buttonText, appliedSettings]}>Post a new Bulletin</Text>
                         </TouchableOpacity>
 
                         <TouchableOpacity 
                             style={styles.button} 
                             onPress={() => navigation.navigate('Settings')}
                         >
-                            <Text style={[styles.buttonText, settingsStyle]}>Settings</Text>
+                            <Text style={[styles.buttonText, appliedSettings]}>Settings</Text>
                         </TouchableOpacity>
                     </View> {/* End button container */}
                 </View> {/* End home container */}
@@ -123,7 +126,7 @@ const styles = StyleSheet.create({
         elevation: 5,
     },
     buttonText: {
-        color: '##031602', 
+        color: '#031602', 
         fontSize: 16,
         fontWeight: '600',
         textAlign: 'center',

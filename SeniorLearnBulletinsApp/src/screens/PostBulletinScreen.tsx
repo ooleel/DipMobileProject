@@ -8,7 +8,7 @@ interface Props {
     user?: any;
 }
 
-const API_BASE_URL = 'http://localhost:3000/api/bulletins'; //FIXME: update
+const API_BASE_URL = 'http://localhost:3000/createpost'; 
 
 export default function PostBulletinScreen({ navigation, settings, user }: Props) {
     const [title, setTitle] = useState('');
