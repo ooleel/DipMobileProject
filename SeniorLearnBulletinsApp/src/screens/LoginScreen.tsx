@@ -98,11 +98,13 @@ export default function LoginScreen({onLogin, onGuestLogin}: Props) {
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.wrapper}> 
-                <Text style={styles.title}>SeniorLearn</Text> 
-                <Image 
-                    style={{width: 30, height: 30, marginLeft: 20}}
-                    source={require('../../assets/images/hat-pixel.png')} 
-                />
+                <Text style={styles.title}>
+                    SeniorLearn
+                    <Image 
+                        style={{width: 30, height: 30, marginLeft: 20}}
+                        source={require('../../assets/images/hat-pixel.png')} 
+                    />
+                </Text> 
 
                 <Text style={styles.subtitle}>Connect and learn together</Text>
 
