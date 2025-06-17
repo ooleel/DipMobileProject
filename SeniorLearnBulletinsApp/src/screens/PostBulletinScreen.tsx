@@ -41,7 +41,7 @@ export default function PostBulletinScreen({ navigation, settings, user }: Props
         setIsSubmitting(true);
 
         try {
-            const response = await fetch(API_BASE_URL, {
+            const response = await fetch(`${API_BASE_URL}/createpost`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

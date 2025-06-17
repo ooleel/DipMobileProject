@@ -4,7 +4,6 @@ import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView } from 'react-na
 interface Props {
     navigation: any;
     settings?: any;
-    setSettings?: any;
     settingsStyle?: { fontSize: number; }; 
     user: { role: string; email: string; username?: string; };
 }
