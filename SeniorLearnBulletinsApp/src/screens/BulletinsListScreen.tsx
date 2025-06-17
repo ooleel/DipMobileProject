@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-//FIXME: "'useEffect' is declared but its value is never read."
+import React, { useState, useCallback } from 'react';
 import { View, FlatList, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useFocusEffect } from '@react-navigation/native';
@@ -20,7 +19,7 @@ interface Props {
     route?: any;
 };
 
-const API_BASE_URL = 'http://localhost:3000/api/bulletins'; //FIXME: update
+const API_BASE_URL = 'http://localhost:3000'; 
 
 export default function BulletinsListScreen({ navigation, settings, user, route }: Props ) {
     const [bulletins, setBulletins] = useState<Bulletin[]>([]);
@@ -43,7 +42,7 @@ export default function BulletinsListScreen({ navigation, settings, user, route 
                 headers.Authorization = user.token;
             }
 
-            const response = await fetch(`${API_BASE_URL}/${type}&limit=10`, {
+            const response = await fetch(`${API_BASE_URL}/posts?type=${type}&limit=10`, {
                 method: 'GET',
                 headers: headers,
             });

@@ -107,31 +107,19 @@ function AppDrawer({ user, signOut, settings, setSettings }) {
                             headerBackTitle: 'Back',
                         }}
                     >
-                        <Stack.Screen 
-                            name="Home" 
-                            component={HomeScreen} 
-                        >
+                        <Stack.Screen name="Home">
                             {props => (<HomeScreen {...props} settings={settings} setSettings={setSettings} user={user}/>
                             )}
                         </Stack.Screen>
-                        <Stack.Screen 
-                            name="BulletinsList" 
-                            component={BulletinsListScreen} 
-                        >
+                        <Stack.Screen name="BulletinsList">
                             {props => (<BulletinsListScreen {...props} settings={settings} user={user}/>
                             )}
                         </Stack.Screen>
-                        <Stack.Screen 
-                            name="BulletinDetails" 
-                            component={BulletinDetailsScreen} 
-                        >
+                        <Stack.Screen name="BulletinDetails">
                             {props => (<BulletinDetailsScreen {...props} settings={settings} user={user}/>
                             )}
                         </Stack.Screen>
-                        <Stack.Screen 
-                            name="PostBulletin" 
-                            component={PostBulletinScreen} 
-                        > 
+                        <Stack.Screen name="PostBulletin"> 
                             {props => (<PostBulletinScreen {...props} settings={settings} user={user}/>
                             )}
                         </Stack.Screen>

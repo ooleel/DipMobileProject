@@ -10,7 +10,7 @@ interface Props {
     settingsStyle?: any;
 }
 
-const API_BASE_URL = 'http://localhost:3000/api/bulletins'; //FIXME: update
+const API_BASE_URL = 'http://localhost:3000'; 
 
 export default function LoginScreen({onLogin, onGuestLogin}: Props) {
     const [email, setEmail] = useState('');
@@ -98,13 +98,11 @@ export default function LoginScreen({onLogin, onGuestLogin}: Props) {
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.wrapper}> 
-                <Text style={styles.title}>
-                    SeniorLearn
-                    <Image 
-                        style={{width: 30, height: 30, marginLeft: 20}}
-                        source={require('../../assets/images/hat-pixel.png')} 
-                    />
-                </Text> 
+                <Text style={styles.title}>SeniorLearn</Text> 
+                <Image 
+                    style={{width: 30, height: 30, marginLeft: 20}}
+                    source={require('../../assets/images/hat-pixel.png')} 
+                />
 
                 <Text style={styles.subtitle}>Connect and learn together</Text>
 
@@ -153,7 +151,7 @@ export default function LoginScreen({onLogin, onGuestLogin}: Props) {
 
                 {/* Guest access */}
                 <View style={styles.btnWrapper}>
-                    <TouchableOpacity style={[styles.guestBtn, IsLoggingIn && styles.buttonDisabled]} onPress={onGuestLogin} disabled={IsLoggingIn}>
+                    <TouchableOpacity style={[styles.guestBtn, IsLoggingIn && styles.buttonDisabled]} onPress={handleGuestLogin} disabled={IsLoggingIn}>
                         <Text style={styles.guestBtnText}>Guest access to official bulletins</Text>
                     </TouchableOpacity>
 

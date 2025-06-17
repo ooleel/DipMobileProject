@@ -18,7 +18,7 @@ interface Props {
     user?: any;
 }
 
-const API_BASE_URL = 'http://localhost:3000/api/bulletins'; //FIXME: update
+const API_BASE_URL = 'http://localhost:3000'; 
 
 export default function BulletinDetailsScreen({ navigation, route, settings, user }: Props) {
     const [bulletin, setBulletin] = useState<Bulletin | null>(null);
@@ -37,7 +37,7 @@ export default function BulletinDetailsScreen({ navigation, route, settings, use
                 },
             ]);
         }
-    }, [route.params, navigation]); //FIXME: "React Hook useEffect has a missing dependency: 'navigation'. Either include it or remove the dependency array"
+    }, [route.params, navigation]); 
 
     const handleDelete = () => {
         Alert.alert(
@@ -58,7 +58,7 @@ export default function BulletinDetailsScreen({ navigation, route, settings, use
         if (!bulletin || !user?.token) return;
 
         try {
-            const response = await fetch('http://localhost:3000/deletepost', {
+            const response = await fetch(`${API_BASE_URL}/deletepost`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
