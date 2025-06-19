@@ -99,7 +99,7 @@ export default function LoginScreen({onLogin, onGuestLogin}: Props) {
         <SafeAreaView style={styles.container}>
             <View style={styles.wrapper}> 
                 <Text style={styles.title}>
-                    SeniorLearn
+                    SeniorLearn 
                     <Image 
                         style={{width: 30, height: 30, marginLeft: 20}}
                         source={require('../../assets/images/hat-pixel.png')} 
@@ -157,8 +157,7 @@ export default function LoginScreen({onLogin, onGuestLogin}: Props) {
                         <Text style={styles.guestBtnText}>Guest access to official bulletins</Text>
                     </TouchableOpacity>
 
-                    {/* or hyperlink?? */}
-                    {/* TODO: add onPress */}
+                    {/* TODO: add onPress?? or hyperlink? */}
                     <TouchableOpacity style={styles.button}>
                             <Text style={styles.buttonText}>Forgot my password</Text>
                     </TouchableOpacity>

@@ -100,9 +100,7 @@ export default function PostBulletinScreen({ navigation, settings, user }: Props
             <ScrollView contentContainerStyle={styles.scrollContainer}>
                 <View style={styles.wrapper}>
                     {/* Main header */}
-                    <View> 
-                        <Text style={styles.title}>SeniorLearn</Text> 
-                    </View>
+                    {/* <Text style={styles.title}>SeniorLearn</Text> */}
 
                     {/* Main content */}
                     <View style={styles.postContainer}>

@@ -226,7 +226,7 @@ app.delete("/deletepost", async (req: Request, res: Response): Promise<any> => {
   }
 });
 
-app.get("/posts", async (req: Request, res: Response) => {
+app.get("/posts", async (req: Request, res: Response): Promise<any> => {
   try {
     const db = await connectToDatabase();
     const bulletinCollection = db.collection<Bulletin>("bulletins");

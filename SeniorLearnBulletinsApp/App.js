@@ -26,11 +26,11 @@ function AuthStack({ onLogin, onGuestLogin }) {
             <Stack.Screen name="Login">
                 {props => <LoginScreen {...props} onLogin={onLogin} onGuestLogin={onGuestLogin} />}
             </Stack.Screen>
-            {/* <Stack.Screen
+            <Stack.Screen
                 name="GuestBulletinsList"
                 component={BulletinsListScreen}
                 headerBackTitle="Back to Login"
-            /> */}
+            />
         </Stack.Navigator>
     );
 }
@@ -58,7 +58,7 @@ function CustomDrawerContent({user, signOut, ...props}) {
     return (
         <DrawerContentScrollView 
             {...props} 
-            contentContainerStyle={{ flex: 1, justifyContent: 'space-between' }}
+            contentContainerStyle={{ flex: 1, justifyContent: 'space-around' }}
         >
             <Text
                 style={{margin: 16, fontWeight: 'bold', fontSize: 18}}
@@ -103,7 +103,7 @@ function AppDrawer({ user, signOut, settings, setSettings }) {
                 {() => (
                     <Stack.Navigator
                         screenOptions={{ 
-                            headerTitle: 'SeniorLearn',
+                            // headerTitle: 'Back to Home',
                             headerBackTitle: 'Back',
                         }}
                     >
@@ -177,6 +177,5 @@ export default function App() {
                 )}
             </NavigationContainer>
         </SafeAreaProvider>
-        //onPress={onGuestLogin}
     );
 }

@@ -15,7 +15,7 @@ export default function HomeScreen({ navigation, settings, settingsStyle, user }
         <SafeAreaView style={styles.container}>
             <View style={styles.wrapper}>
                 {/* Main header */}
-                <Text style={[styles.title, settingsStyle]}>SeniorLearn</Text> 
+                {/* <Text style={[styles.title, settingsStyle]}>SeniorLearn</Text>  */}
 
                 {/* Main content */}
                 <View style={styles.homeContainer}> 

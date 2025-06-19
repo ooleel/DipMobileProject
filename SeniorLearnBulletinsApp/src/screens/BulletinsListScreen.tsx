@@ -113,12 +113,9 @@ export default function BulletinsListScreen({ navigation, settings, user, route 
         <SafeAreaView style={styles.container}>
             <View style={styles.wrapper}>
                 {/* Main header */}
-                <View> 
-                    <Text style={styles.title}>SeniorLearn</Text> 
-                </View>
+                {/* <Text style={styles.title}>SeniorLearn</Text>  */}
 
                 {/* Tabs for official and member bulletins */}
-                {/* FIXME: change tab styles */}
                 {canViewMemberPosts && (
                     <View style={styles.tabContainer}>
                         <TouchableOpacity
