@@ -478,7 +478,7 @@ app.get("/posts", async (req: Request, res: Response): Promise<any> => {
       .toArray();
 
     const userMap = new Map<string, string>();
-    users.forEach((user) => {
+    users.forEach((user: any) => {
       userMap.set(user._id.toString(), user.name);
     });
 
