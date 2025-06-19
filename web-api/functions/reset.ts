@@ -84,14 +84,16 @@ async function resetDatabase() {
     {
       name: "Alice",
       email: "alice@example.com",
-      passwordHash: "5f4dcc3b5aa765d61d8327deb882cf99",
+      passwordHash:
+        "$2b$12$84xbuhEHFZMPLfNj0WJc1.BWnihudrtG/WWGwbR1Zk/vpvaKTs2gC",
       role: "admin",
       createdAt: new Date(),
     },
     {
       name: "Bob",
       email: "bob@example.com",
-      passwordHash: "5f4dcc3b5aa765d61d8327deb882cf99",
+      passwordHash:
+        "$2b$12$84xbuhEHFZMPLfNj0WJc1.BWnihudrtG/WWGwbR1Zk/vpvaKTs2gC",
       role: "member",
       createdAt: new Date(),
     },

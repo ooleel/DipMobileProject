@@ -4,7 +4,7 @@ import { createPost } from "./functions/createPost";
 import { editPost } from "./functions/editPost";
 import { createUser } from "./functions/createUser";
 import { generateToken, verifyToken } from "./auth/jwt";
-import { WithId } from "mongodb";
+import { WithId, ObjectId } from "mongodb";
 import bcrypt from "bcrypt";
 
 const cors = require("cors");
@@ -82,6 +82,44 @@ app.get("/users", async (req: Request, res: Response) => {
   }
 });
 
+app.get("/user/profile", async (req: Request, res: Response): Promise<any> => {
+  const authHeader = req.headers.authorization;
+
+  try {
+    const decoded = verifyToken(String(authHeader));
+    if (!decoded) {
+      return res.status(401).json({ message: "Invalid token" });
+    }
+
+    const db = await connectToDatabase();
+    const usersCollection = db.collection<User>("users");
+
+    const user = await usersCollection.findOne(
+      { _id: new ObjectId(decoded.userId) },
+      { projection: { passwordHash: 0 } }, // Exclude passwordHash from the response
+    );
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.status(200).json({
+      message: "User profile retrieved successfully",
+      user: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        createdAt: user.createdAt,
+      },
+    });
+  } catch (error) {
+    console.error("Error retrieving user profile:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+    // or res.status(401).json({ message: "Invalid token" });
+  }
+});
+
 app.get("/test", async (req: Request, res: Response) => {
   const authHeader = req.headers.authorization;
   try {
@@ -136,17 +174,16 @@ app.post("/createpost", async (req: Request, res: Response) => {
   }
 });
 
-app.get("/posts", async (req: Request, res: Response) => {
+app.get("/posts", async (req: Request, res: Response): Promise<any> => {
   try {
     const db = await connectToDatabase();
     const bulletinCollection = db.collection<Bulletin>("bulletins");
 
     const limit = parseInt(req.query.limit as string) || 5;
     const typeFilter = (req.query.type as string) || "official";
-
     if (typeFilter == "member") {
       const authHeader = req.headers.authorization;
-      if (!verifyToken(String(authHeader))) {
+      if (!verifyToken(String(authHeader)) || !authHeader) {
         res
           .status(403)
           .json({ message: "This option is only available to members." });
