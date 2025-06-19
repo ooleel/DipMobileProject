@@ -6,6 +6,8 @@ import { createUser } from "./functions/createUser";
 import { generateToken, verifyToken } from "./auth/jwt";
 import { WithId, ObjectId } from "mongodb";
 import bcrypt from "bcrypt";
+import swaggerUi from "swagger-ui-express";
+import { swaggerSpec } from "./swagger";
 
 const cors = require("cors");
 const app = express();
@@ -28,6 +30,37 @@ interface Bulletin {
   createdAt: Date;
 }
 
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
+/**
+ * @swagger
+ * /createuser:
+ *   post:
+ *     summary: Create a new user
+ *     tags: [User]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - name
+ *               - email
+ *               - password
+ *             properties:
+ *               name:
+ *                 type: string
+ *               email:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *     responses:
+ *       201:
+ *         description: User created successfully
+ *       400:
+ *         description: User creation failed
+ */
 app.post("/createuser", async (req: Request, res: Response) => {
   const result = await createUser(req.body);
 
@@ -43,7 +76,32 @@ app.post("/createuser", async (req: Request, res: Response) => {
   }
 });
 
-//TODO: Refresh tokens
+/**
+ * @swagger
+ * /login:
+ *   post:
+ *     summary: Login to an account
+ *     tags: [User]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *               - password
+ *             properties:
+ *               email:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *     responses:
+ *       201:
+ *         description: Token generated
+ *       401:
+ *         description: Token generation failed
+ */
 app.post("/login", async (req: Request, res: Response): Promise<any> => {
   const { email, password } = req.body;
   const db = await connectToDatabase();
@@ -59,6 +117,18 @@ app.post("/login", async (req: Request, res: Response): Promise<any> => {
   res.status(201).json({ token });
 });
 
+/**
+ * @swagger
+ * /users:
+ *   get:
+ *     summary: Get all users
+ *     tags: [User]
+ *     responses:
+ *       200:
+ *         description: List of users
+ *       500:
+ *         description: Internal server error
+ */
 app.get("/users", async (req: Request, res: Response) => {
   try {
     const db = await connectToDatabase();
@@ -82,6 +152,22 @@ app.get("/users", async (req: Request, res: Response) => {
   }
 });
 
+/**
+ * @swagger
+ * /user/profile:
+ *   get:
+ *     summary: Get authenticated user's profile
+ *     tags: [User]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: User profile retrieved successfully
+ *       401:
+ *         description: Invalid token
+ *       404:
+ *         description: User not found
+ */
 app.get("/user/profile", async (req: Request, res: Response): Promise<any> => {
   const authHeader = req.headers.authorization;
 
@@ -116,10 +202,23 @@ app.get("/user/profile", async (req: Request, res: Response): Promise<any> => {
   } catch (error) {
     console.error("Error retrieving user profile:", error);
     res.status(500).json({ message: "Internal Server Error" });
-    // or res.status(401).json({ message: "Invalid token" });
   }
 });
 
+/**
+ * @swagger
+ * /test:
+ *   get:
+ *     summary: Verify token validity (test endpoint)
+ *     tags: [Internal]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Token is valid
+ *       404:
+ *         description: Invalid token
+ */
 app.get("/test", async (req: Request, res: Response) => {
   const authHeader = req.headers.authorization;
   try {
@@ -132,46 +231,36 @@ app.get("/test", async (req: Request, res: Response) => {
   }
 });
 
-// Add this endpoint to your index.ts file in the web-api folder
-
-app.get("/user/profile", async (req: Request, res: Response): Promise<any> => {
-  const authHeader = req.headers.authorization;
-
-  try {
-    const decoded = verifyToken(String(authHeader));
-    if (!decoded) {
-      return res.status(401).json({ message: "Invalid token" });
-    }
-
-    const db = await connectToDatabase();
-    const usersCollection = db.collection("users");
-
-    const user = await usersCollection.findOne(
-      { _id: new ObjectId(decoded.userId) },
-      { projection: { passwordHash: 0 } }, // Exclude password hash
-    );
-
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-
-    res.status(200).json({
-      message: "User profile retrieved successfully",
-      user: {
-        _id: user._id,
-        name: user.name,
-        email: user.email,
-        role: user.role,
-        createdAt: user.createdAt,
-      },
-    });
-  } catch (error) {
-    console.error("Error fetching user profile:", error);
-    res.status(401).json({ message: "Invalid token" });
-  }
-});
-
-// Add this endpoint for deleting posts (referenced in BulletinDetailsScreen)
+/**
+ * @swagger
+ * /deletepost:
+ *   delete:
+ *     summary: Delete a post
+ *     tags: [Post]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required: [postId]
+ *             properties:
+ *               postId:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Post deleted successfully
+ *       400:
+ *         description: Missing postId
+ *       403:
+ *         description: Unauthorized
+ *       404:
+ *         description: Post not found
+ *       500:
+ *         description: Internal server error
+ */
 app.delete("/deletepost", async (req: Request, res: Response): Promise<any> => {
   const authHeader = req.headers.authorization;
   const { postId } = req.body;
@@ -225,6 +314,37 @@ app.delete("/deletepost", async (req: Request, res: Response): Promise<any> => {
   }
 });
 
+/**
+ * @swagger
+ * /editpost:
+ *   post:
+ *     summary: Edit a post
+ *     tags: [Post]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               postId:
+ *                 type: string
+ *               title:
+ *                 type: string
+ *               content:
+ *                 type: string
+ *               type:
+ *                 type: string
+ *     responses:
+ *       201:
+ *         description: Post updated successfully
+ *       400:
+ *         description: Post edit failed
+ *       403:
+ *         description: Unauthorized
+ */
 app.post("/editpost", async (req: Request, res: Response) => {
   const authHeader = req.headers.authorization;
   const checkUser = verifyToken(String(authHeader));
@@ -246,6 +366,36 @@ app.post("/editpost", async (req: Request, res: Response) => {
   }
 });
 
+/**
+ * @swagger
+ * /createpost:
+ *   post:
+ *     summary: Create a new post
+ *     tags: [Post]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required: [title, content, type]
+ *             properties:
+ *               title:
+ *                 type: string
+ *               content:
+ *                 type: string
+ *               type:
+ *                 type: string
+ *     responses:
+ *       201:
+ *         description: Post created successfully
+ *       400:
+ *         description: Post creation failed
+ *       403:
+ *         description: Unauthorized
+ */
 app.post("/createpost", async (req: Request, res: Response) => {
   const authHeader = req.headers.authorization;
   const checkUser = verifyToken(String(authHeader));
@@ -267,6 +417,31 @@ app.post("/createpost", async (req: Request, res: Response) => {
   }
 });
 
+/**
+ * @swagger
+ * /posts:
+ *   get:
+ *     summary: Get bulletin posts
+ *     tags: [Post]
+ *     parameters:
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *         description: Limit number of posts
+ *       - in: query
+ *         name: type
+ *         schema:
+ *           type: string
+ *         description: Filter by post type (e.g., 'official', 'member')
+ *     responses:
+ *       200:
+ *         description: Posts retrieved successfully
+ *       403:
+ *         description: Members-only content
+ *       500:
+ *         description: Internal server error
+ */
 app.get("/posts", async (req: Request, res: Response): Promise<any> => {
   try {
     const db = await connectToDatabase();
@@ -329,6 +504,16 @@ app.get("/posts", async (req: Request, res: Response): Promise<any> => {
   }
 });
 
+/**
+ * @swagger
+ * /:
+ *   get:
+ *     summary: Root health check
+ *     tags: [Internal]
+ *     responses:
+ *       200:
+ *         description: Server is alive
+ */
 app.get("/", (req: Request, res: Response) => {
   const data = {
     message: "Request Succeeded",
