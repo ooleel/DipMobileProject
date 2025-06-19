@@ -1,8 +1,20 @@
 import request from "supertest";
 import { generateToken } from "../auth/jwt";
-import { connectToDatabase } from "../functions/mongoClient";
-import { ObjectId, Db } from "mongodb";
+import { ObjectId, Db, MongoClient } from "mongodb";
 import app from "../index";
+
+const uri = "mongodb://localhost:27000/";
+const client = new MongoClient(uri);
+
+async function connectToDatabase(): Promise<Db> {
+  try {
+    await client.connect();
+    return client.db("seniorlearn");
+  } catch (error) {
+    console.error("MongoDB connection error:", error);
+    throw error;
+  }
+}
 
 let db: Db;
 let aliceToken: string;

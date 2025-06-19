@@ -77,9 +77,7 @@ async function resetDatabase() {
   await db.createCollection("sessions");
   console.log("Recreated collections");
 
-  // Passwords use md5 for testing purposes
-  // All passwords are "password"
-  // Change later according to documentation
+  // All passwords are "secret"
   await db.collection("users").insertMany([
     {
       name: "Alice",
