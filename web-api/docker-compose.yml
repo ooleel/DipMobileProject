@@ -17,7 +17,7 @@ services:
     build: .
     container_name: web-api
     ports:
-      - "3000:3000"
+      - "3002:3002"
     networks:
       - web-api-network
     depends_on:
