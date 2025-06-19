@@ -92,7 +92,7 @@ export default function BulletinsListScreen({ navigation, settings, user, route 
             >
                 <Text style={[styles.bulletinTitle, settingsStyle]}>{item.title}</Text>
                 <Text style={[styles.bulletinDate, settingsStyle]}>
-                    {new Date(item.createdAt).toLocaleDateString('en-AU', {})}
+                    {new Date(item.createdAt).toLocaleDateString('en-AU')}
                 </Text>
                 <Text style={[styles.bulletinType, settingsStyle]}>
                     {item.type === 'official' ? 'Official' : 'Member'}

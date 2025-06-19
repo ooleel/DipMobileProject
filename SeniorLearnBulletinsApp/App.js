@@ -22,15 +22,19 @@ const Drawer = createDrawerNavigator();
 
 function AuthStack({ onLogin, onGuestLogin }) {
     return (
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Navigator 
+            screenOptions={{ 
+                headerShown: false // Hide header for auth screens
+            }}
+        >
             <Stack.Screen name="Login">
                 {props => <LoginScreen {...props} onLogin={onLogin} onGuestLogin={onGuestLogin} />}
             </Stack.Screen>
-            <Stack.Screen
+            {/* <Stack.Screen
                 name="GuestBulletinsList"
                 component={BulletinsListScreen}
                 headerBackTitle="Back to Login"
-            />
+            /> */}
         </Stack.Navigator>
     );
 }
@@ -58,7 +62,7 @@ function CustomDrawerContent({user, signOut, ...props}) {
     return (
         <DrawerContentScrollView 
             {...props} 
-            contentContainerStyle={{ flex: 1, justifyContent: 'space-around' }}
+            contentContainerStyle={{ flex: 1, justifyContent: 'space-between' }}
         >
             <Text
                 style={{margin: 16, fontWeight: 'bold', fontSize: 18}}
@@ -97,13 +101,14 @@ function AppDrawer({ user, signOut, settings, setSettings }) {
             screenOptions={{ headerTitle: 'SeniorLearn' }}
         >
             {/* Main screens */}
-            <Drawer.Screen name="HomeStack" 
+            <Drawer.Screen 
+                name="HomeStack" 
                 options={{ title: 'Home' }}
             >
                 {() => (
                     <Stack.Navigator
                         screenOptions={{ 
-                            // headerTitle: 'Back to Home',
+                            headerTitle: 'SeniorLearn',
                             headerBackTitle: 'Back',
                         }}
                     >
@@ -128,7 +133,7 @@ function AppDrawer({ user, signOut, settings, setSettings }) {
             </Drawer.Screen>
 
             {/* other routes */}
-            <Drawer.Screen name="Settings">
+            <Drawer.Screen name="Settings" options={{ title: 'Settings' }}>
                 {props => (
                     <SettingsScreen
                         {...props} 
