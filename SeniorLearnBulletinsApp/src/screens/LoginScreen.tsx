@@ -10,7 +10,7 @@ interface Props {
     settingsStyle?: any;
 }
 
-const API_BASE_URL = 'http://localhost:3000'; 
+const API_BASE_URL = 'http://localhost:3002'; 
 
 export default function LoginScreen({onLogin, onGuestLogin}: Props) {
     const [email, setEmail] = useState('');

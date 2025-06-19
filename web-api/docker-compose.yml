@@ -10,20 +10,20 @@ services:
     volumes:
       - mongo-data:/data/db
     ports:
-      - "27017:27017"
+      - "27000:27000"
 
   # Web-Api service
   my-ts-app:
     build: .
     container_name: web-api
     ports:
-      - "3000:3000"
+      - "3002:3002"
     networks:
       - web-api-network
     depends_on:
       - mongo
     environment:
-      - MONGO_URI=mongodb://mongo:27017/seniorlearn
+      - MONGO_URI=mongodb://mongo:27000/seniorlearn
     command: ["npm", "run", "start"]  
 
 networks:

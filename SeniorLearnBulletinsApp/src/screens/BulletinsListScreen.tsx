@@ -19,7 +19,7 @@ interface Props {
     route?: any;
 };
 
-const API_BASE_URL = 'http://localhost:3000'; 
+const API_BASE_URL = 'http://localhost:3002'; 
 
 export default function BulletinsListScreen({ navigation, settings, user, route }: Props ) {
     const [bulletins, setBulletins] = useState<Bulletin[]>([]);

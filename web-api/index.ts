@@ -4,13 +4,12 @@ import { createPost } from "./functions/createPost";
 import { editPost } from "./functions/editPost";
 import { createUser } from "./functions/createUser";
 import { generateToken, verifyToken } from "./auth/jwt";
-import { ObjectId } from "mongodb";
-import { WithId } from "mongodb";
+import { WithId, ObjectId } from "mongodb";
 import bcrypt from "bcrypt";
 
 const cors = require("cors");
 const app = express();
-const port = 3000;
+const port = 3002;
 app.use(cors());
 app.use(express.json());
 
@@ -57,7 +56,7 @@ app.post("/login", async (req: Request, res: Response): Promise<any> => {
   if (!isMatch) return res.status(401).json({ message: "Invalid credentials" });
 
   const token = generateToken({ userId: user._id, email: user.email });
-  res.json({ token });
+  res.status(201).json({ token });
 });
 
 app.get("/users", async (req: Request, res: Response) => {
@@ -80,6 +79,44 @@ app.get("/users", async (req: Request, res: Response) => {
       status: "error",
       code: 500,
     });
+  }
+});
+
+app.get("/user/profile", async (req: Request, res: Response): Promise<any> => {
+  const authHeader = req.headers.authorization;
+
+  try {
+    const decoded = verifyToken(String(authHeader));
+    if (!decoded) {
+      return res.status(401).json({ message: "Invalid token" });
+    }
+
+    const db = await connectToDatabase();
+    const usersCollection = db.collection<User>("users");
+
+    const user = await usersCollection.findOne(
+      { _id: new ObjectId(decoded.userId) },
+      { projection: { passwordHash: 0 } }, // Exclude passwordHash from the response
+    );
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.status(200).json({
+      message: "User profile retrieved successfully",
+      user: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        createdAt: user.createdAt,
+      },
+    });
+  } catch (error) {
+    console.error("Error retrieving user profile:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+    // or res.status(401).json({ message: "Invalid token" });
   }
 });
 
@@ -304,3 +341,5 @@ app.get("/", (req: Request, res: Response) => {
 app.listen(port, "0.0.0.0", () => {
   console.log(`Server is running on port ${port}`);
 });
+
+export default app;

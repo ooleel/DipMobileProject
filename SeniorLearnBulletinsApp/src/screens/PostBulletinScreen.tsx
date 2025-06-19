@@ -8,7 +8,7 @@ interface Props {
     user?: any;
 }
 
-const API_BASE_URL = 'http://localhost:3000'; 
+const API_BASE_URL = 'http://localhost:3002'; 
 
 export default function PostBulletinScreen({ navigation, settings, user }: Props) {
     const [title, setTitle] = useState('');
