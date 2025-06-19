@@ -1,132 +1,178 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Switch } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Switch, SafeAreaView } from 'react-native';
+
+interface SettingsType {
+    fontSize: number;
+    isSoundEnabled: boolean;
+}
 
 interface Props {
     navigation: any;
-    fontSize: number;
-    setFontSize: (size: number) => void;
-    settings: {
-        brightness: number;
-        isSoundEnabled: boolean;
-    };
-    setSettings: (settings: any) => void;
+    settings: SettingsType;
+    setSettings: React.Dispatch<React.SetStateAction<SettingsType>>;
 }
 
-export default function SettingsScreen({ navigation, fontSize, setFontSize, settings, setSettings }: Props) {
+export default function SettingsScreen({ navigation, settings, setSettings }: Props) {
+    const { fontSize = 16, isSoundEnabled = true } = settings;
 
-    const increaseFontSize = () => {
-        if (fontSize < 30) {
-            setFontSize(fontSize + 2);
-        }
-    };
-    const decreaseFontSize = () => {
-        if (fontSize > 14) {
-            setFontSize(fontSize - 2);
-        }
-    };
+    //High contrast mode state??
+    //Dark mode??
     
-    const toggleSound = () => {
-        setSettings({
-            ...settings,
-            isSoundEnabled: !settings.isSoundEnabled,
-        });
+    //Sound toggle 
+    const toggleSound = (val: boolean) => {
+        setSettings(s => ({...s, isSoundEnabled: val}));
+    };
+
+    //Font size
+    const increaseFont = () => {
+        if (fontSize < 30) {
+            setSettings(s => ({...s, fontSize: s.fontSize + 2}));
+        }
+    };
+    const decreaseFont = () => {
+        if (fontSize >   12) {
+            setSettings(s => ({...s, fontSize: s.fontSize - 2}));
+        }
     };
 
     return (
-        <View style={styles.container}>
-            <Text style={styles.title}>Settings</Text>
-            <Text style={[styles.subtitle, {fontSize: fontSize - 2}]}>
-                Customise the settings to fit your needs.
-            </Text>
+        <SafeAreaView style={styles.container}>
+            <View style={styles.wrapper}>
+                <Text style={styles.subtitle}>Settings</Text>
 
-            <View style={styles.settingsSection}>
-                <Text style={styles.sectionTitle}>Font Size</Text>
-                <Text style={[styles.currentValue, {fontSize}]}>
-                    Current font size: {fontSize}px
-                </Text>
-            </View>
+                <View style={styles.layoutContainer}>
+                    <Text style={styles.sectionTitle}>Font Size</Text>
+                    <Text style={[styles.currentValue, {fontSize}]}>
+                        Current font size: {fontSize}px
+                    </Text>
 
-            <View style={styles.buttonRow}>
-                <TouchableOpacity 
-                    style={[styles.button, fontSize <= 14 && styles.disabledButton]}
-                    onPress={decreaseFontSize} 
-                    disabled={fontSize <= 14}
-                >
-                    <Text style={styles.buttonText}>Smaller</Text>
-                </TouchableOpacity>
-                <TouchableOpacity 
-                    style={[styles.button, fontSize >= 30 && styles.disabledButton]}
-                    onPress={increaseFontSize} 
-                    disabled={fontSize >= 30}
-                >
-                    <Text style={styles.buttonText}>Larger</Text>
-                </TouchableOpacity>
-            </View>
+                    <View style={styles.fontControls}>
+                        <TouchableOpacity 
+                            style={[styles.button, fontSize <= 12 && styles.disabledButton]}
+                            onPress={fontSize > 12 ? decreaseFont : undefined} 
+                            disabled={fontSize <= 12}
+                        >
+                            <Text style={[styles.buttonText, fontSize <= 12 && styles.disabledButtonText]}>Smaller</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity 
+                            style={[styles.button, fontSize >= 30 && styles.disabledButton]}
+                            onPress={fontSize < 30 ? increaseFont : undefined}
+                            disabled={fontSize >= 30} 
+                        >
+                            <Text style={[styles.buttonText, fontSize >= 30 && styles.disabledButtonText]}>Larger</Text>
+                        </TouchableOpacity>
+                    </View> {/* End button row */}
+                </View> {/* End font container */}
 
-            <View style={styles.settingsSection}>
-                <Text style={[styles.sectionTitle, {fontSize}]}>Sound</Text>
-                <Text style={[styles.switchLabel, {fontSize}]}>Enable sound</Text>
-                <Switch
-                    value={settings.isSoundEnabled}
-                    onValueChange={toggleSound}
-                    trackColor={{ false: 'red', true: 'green' }}
-                    thumbColor={settings.isSoundEnabled ? 'blue' : 'orange'}
-                />
-            </View>
-        </View>
+                <View style={styles.layoutContainer}>
+                    <Text style={styles.sectionTitle}>Sound</Text>
+                    <Text style={[styles.switchLabel, {fontSize}]}>Enable sound</Text>
+                    <Switch
+                        value={isSoundEnabled}
+                        onValueChange={toggleSound}
+                        trackColor={{ false: '#E28378', true: '#53A267' }}
+                        thumbColor={isSoundEnabled ? '#305F3C' : '#D23D2D'}
+                    />
+                </View> {/* End sound container */}
+
+                <View style={styles.saveBtnContainer}>
+                    <TouchableOpacity style={styles.saveButton} onPress={() => navigation.goBack()}>
+                        <Text style={styles.saveButtonText}>Save settings</Text>
+                    </TouchableOpacity>
+                </View> {/* End save button container */}
+            </View> {/* End main container */}
+        </SafeAreaView>
     );
 }
 
-//TODO: add colours and styles for disabled buttons
+//TODO: add colours and styles for disabled buttons?
 const styles = StyleSheet.create({
+    //Main container styles
     container: {
         flex: 1,
         padding: 20,
-        backgroundColor: '#fff',
+        backgroundColor: '#FAF9F6', 
+    },
+    wrapper: {
+        alignItems: 'center',
+        width: '100%',
     },
     title: {
+        fontSize: 38,
         fontWeight: 'bold',
         marginBottom: 10,
+        color: '#A51589' 
     },
     subtitle: {
-        marginBottom: 20,
-        textAlign: 'center',
+        fontSize: 20,
+        color: '#031602' 
     },
-    settingsSection: {
-        marginBottom: 30,
-        padding: 15,
-        //borderRadius: 8,
-        // backgroundColor??
-    },
-    sectionTitle: {
-        fontWeight: '600',
-        marginBottom: 10,
-    },
-    currentValue: {
-        color: 'violet',
-        marginBottom: 15,
-    },
-    buttonRow: {
-        flexDirection: 'row',
-        gap: 10,
-    },
-    button: {
-        backgroundColor: 'yellow',
-        paddingHorizontal: 20,
-        paddingVertical: 10,
-        borderRadius: 6,
+
+    //Layout accessibility styles
+    layoutContainer: {
         flex: 1,
         alignItems: 'center',
+        justifyContent: 'center',
+        padding: 20,
+        width: '90%',
+        borderColor: '#DACFD5', 
+        borderWidth: 1,
+        borderRadius: 8,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2, },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5, 
+        marginTop: 30, //spacing below header
+        alignSelf: 'center', //center the container horizontally
+
     },
-    disabledButton: {
-        backgroundColor: 'lightgray',
+    sectionTitle: {
+        fontSize: 22,
+        fontWeight: 'bold',
+        color: '#936589', 
+    },
+    currentValue: {
+        color: '#031602', 
+        marginBottom: 15,
+    },
+    fontControls: {
+        flexDirection: 'row',
+        gap: 25,
+    },
+    button: {
+        backgroundColor: '#FFFAFA', 
+        borderColor: '#936589', 
+        borderWidth: 1,
+        padding: 14,
+        borderRadius: 8,
+        marginTop: 10,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2, },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
     },
     buttonText: {
-        fontWeight: '600',
-        color: 'black',
+        color: '#FD7F00', 
         fontSize: 16,
+        fontWeight: '600',
+        textAlign: 'center',
+    },
+    disabledButton: {
+        backgroundColor: '#E0E0E0', 
+        borderColor: '#B0B0B0', 
+        color: '#A0A0A0', 
+        opacity: 0.6, 
+        shadowColor: 'transparent', 
+        elevation: 0, 
+    },
+    disabledButtonText: {
+        color: '#A0A0A0', 
     },
     switchRow: {
+        width: '70%',
+        padding: 10,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
@@ -134,4 +180,26 @@ const styles = StyleSheet.create({
     switchLabel: {
         flex: 1
     },
+
+    //Save button styles
+    saveBtnContainer: {
+        padding: 20,
+        width: '95%',
+    },
+    saveButton: {
+        backgroundColor: '#FD7F00', 
+        paddingVertical: 14,
+        borderRadius: 8,
+        marginTop: 10,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2, },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+    }, 
+    saveButtonText: {
+        color: '#FFFAFA', 
+        fontSize: 16,
+        fontWeight: '600',
+        textAlign: 'center',
+    }
 });

@@ -132,6 +132,99 @@ app.get("/test", async (req: Request, res: Response) => {
   }
 });
 
+// Add this endpoint to your index.ts file in the web-api folder
+
+app.get("/user/profile", async (req: Request, res: Response): Promise<any> => {
+  const authHeader = req.headers.authorization;
+
+  try {
+    const decoded = verifyToken(String(authHeader));
+    if (!decoded) {
+      return res.status(401).json({ message: "Invalid token" });
+    }
+
+    const db = await connectToDatabase();
+    const usersCollection = db.collection("users");
+
+    const user = await usersCollection.findOne(
+      { _id: new ObjectId(decoded.userId) },
+      { projection: { passwordHash: 0 } }, // Exclude password hash
+    );
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.status(200).json({
+      message: "User profile retrieved successfully",
+      user: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        createdAt: user.createdAt,
+      },
+    });
+  } catch (error) {
+    console.error("Error fetching user profile:", error);
+    res.status(401).json({ message: "Invalid token" });
+  }
+});
+
+// Add this endpoint for deleting posts (referenced in BulletinDetailsScreen)
+app.delete("/deletepost", async (req: Request, res: Response): Promise<any> => {
+  const authHeader = req.headers.authorization;
+  const { postId } = req.body;
+
+  if (!postId) {
+    return res.status(400).json({ message: "Post ID is required" });
+  }
+
+  try {
+    const decoded = verifyToken(String(authHeader));
+    if (!decoded) {
+      return res.status(401).json({ message: "Invalid token" });
+    }
+
+    const db = await connectToDatabase();
+    const usersCollection = db.collection("users");
+    const postsCollection = db.collection("bulletins");
+
+    const user = await usersCollection.findOne({
+      _id: new ObjectId(decoded.userId),
+    });
+    const post = await postsCollection.findOne({ _id: new ObjectId(postId) });
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    if (!post) {
+      return res.status(404).json({ message: "Post not found" });
+    }
+
+    // Check if user can delete (post author or admin)
+    if (post.createdBy.toString() !== decoded.userId && user.role !== "admin") {
+      return res
+        .status(403)
+        .json({ message: "You are not authorized to delete this post" });
+    }
+
+    const result = await postsCollection.deleteOne({
+      _id: new ObjectId(postId),
+    });
+
+    if (result.deletedCount === 1) {
+      res.status(200).json({ message: "Post deleted successfully" });
+    } else {
+      res.status(500).json({ message: "Failed to delete post" });
+    }
+  } catch (error) {
+    console.error("Error deleting post:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
 app.post("/editpost", async (req: Request, res: Response) => {
   const authHeader = req.headers.authorization;
   const checkUser = verifyToken(String(authHeader));
@@ -178,17 +271,20 @@ app.get("/posts", async (req: Request, res: Response): Promise<any> => {
   try {
     const db = await connectToDatabase();
     const bulletinCollection = db.collection<Bulletin>("bulletins");
+    const usersCollection = db.collection<User>("users");
 
     const limit = parseInt(req.query.limit as string) || 5;
     const typeFilter = (req.query.type as string) || "official";
-    if (typeFilter == "member") {
+
+    if (typeFilter === "member") {
       const authHeader = req.headers.authorization;
-      if (!verifyToken(String(authHeader)) || !authHeader) {
-        res
+      if (!verifyToken(String(authHeader))) {
+        return res
           .status(403)
           .json({ message: "This option is only available to members." });
       }
     }
+
     const query: Partial<Bulletin> = {};
     if (typeFilter) {
       query.type = typeFilter;
@@ -199,13 +295,32 @@ app.get("/posts", async (req: Request, res: Response): Promise<any> => {
       .limit(limit)
       .toArray();
 
+    // Fetch user names for each post
+    const userIds = posts.map((post) => new ObjectId(post.createdBy));
+    const users = await usersCollection
+      .find({ _id: { $in: userIds } })
+      .project({ name: 1 }) // Only need the name
+      .toArray();
+
+    const userMap = new Map<string, string>();
+    users.forEach((user) => {
+      userMap.set(user._id.toString(), user.name);
+    });
+
+    // Replace createdBy with the user's name
+    const postsWithNames = posts.map((post) => ({
+      ...post,
+      createdBy: userMap.get(post.createdBy.toString()) || "Unknown",
+    }));
+
     res.status(200).json({
       message: "Posts retrieved successfully",
       status: "success",
       code: 200,
-      posts,
+      posts: postsWithNames,
     });
   } catch (err) {
+    console.error("Error fetching posts:", err);
     res.status(500).json({
       message: "Internal Server Error",
       status: "error",
