@@ -132,46 +132,6 @@ app.get("/test", async (req: Request, res: Response) => {
   }
 });
 
-// Add this endpoint to your index.ts file in the web-api folder
-
-app.get("/user/profile", async (req: Request, res: Response): Promise<any> => {
-  const authHeader = req.headers.authorization;
-
-  try {
-    const decoded = verifyToken(String(authHeader));
-    if (!decoded) {
-      return res.status(401).json({ message: "Invalid token" });
-    }
-
-    const db = await connectToDatabase();
-    const usersCollection = db.collection("users");
-
-    const user = await usersCollection.findOne(
-      { _id: new ObjectId(decoded.userId) },
-      { projection: { passwordHash: 0 } }, // Exclude password hash
-    );
-
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-
-    res.status(200).json({
-      message: "User profile retrieved successfully",
-      user: {
-        _id: user._id,
-        name: user.name,
-        email: user.email,
-        role: user.role,
-        createdAt: user.createdAt,
-      },
-    });
-  } catch (error) {
-    console.error("Error fetching user profile:", error);
-    res.status(401).json({ message: "Invalid token" });
-  }
-});
-
-// Add this endpoint for deleting posts (referenced in BulletinDetailsScreen)
 app.delete("/deletepost", async (req: Request, res: Response): Promise<any> => {
   const authHeader = req.headers.authorization;
   const { postId } = req.body;
