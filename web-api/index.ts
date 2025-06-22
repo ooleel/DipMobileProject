@@ -49,10 +49,14 @@ app.post("/login", async (req: Request, res: Response): Promise<any> => {
   const db = await connectToDatabase();
   const usersCollection = db.collection("users");
 
+  //console.log("Login attempt for email:", email);
   const user = await usersCollection.findOne({ email });
   if (!user) return res.status(401).json({ message: "Invalid credentials" });
 
+  //console.log("User found:", user);
   const isMatch = await bcrypt.compare(password, user.passwordHash);
+  //console.log("Password match:", isMatch);
+
   if (!isMatch) return res.status(401).json({ message: "Invalid credentials" });
 
   const token = generateToken({ userId: user._id, email: user.email });
