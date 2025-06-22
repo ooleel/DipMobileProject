@@ -3,15 +3,48 @@ import { View, Text, TextInput, StyleSheet, TouchableOpacity, Image, Alert } fro
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
+/**
+ * @description This file contains the LoginScreen component for the SeniorLearn Bulletins app. It provides a user interface for logging in with email and password, guest access, and other related functionalities.
+ * @interface Props
+ * @typedef {Props}
+ */
 interface Props {
+    /**
+     * @description Callback function to handle user login.
+     * @type {(userInfo: any) => void}
+     */
     onLogin: (userInfo: any) => void;
+    /**
+     * @description Callback function to handle guest login.
+     * @type {() => void}
+     */
     onGuestLogin: () => void;
+    /**
+     * @description Placeholder for additional settings or configurations.
+     * @type {?*}
+     */
     settings?: any;
+    /**
+     * @description Placeholder for additional styles or configurations related to settings.
+     * @type {?*}
+     */
     settingsStyle?: any;
 }
 
+/**
+ * @description Base URL for the API. 
+ * @type {"http://localhost:3002"}
+ */
 const API_BASE_URL = 'http://localhost:3002'; 
 
+/**
+ * @description LoginScreen component for the SeniorLearn Bulletins app. 
+ * @export
+ * @param {Props} param0 
+ * @param {(userInfo: any) => void} param0.onLogin 
+ * @param {() => void} param0.onGuestLogin 
+ * @returns {*} 
+ */
 export default function LoginScreen({onLogin, onGuestLogin}: Props) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -171,6 +204,10 @@ export default function LoginScreen({onLogin, onGuestLogin}: Props) {
     );
 }
 
+/**
+ * @description Styles for the LoginScreen component.
+ * @type {*}
+ */
 const styles = StyleSheet.create({
     //Main container styles
     container: {

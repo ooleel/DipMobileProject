@@ -1,17 +1,56 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Switch, SafeAreaView } from 'react-native';
 
+/**
+ * @description SettingsType interface defines the structure for user settings in the app.
+ * @interface SettingsType
+ * @typedef {SettingsType}
+ */
 interface SettingsType {
+    /**
+     * @description Font size for the app's text.
+     * @type {number}
+     */
     fontSize: number;
+    /**
+     * @description Boolean indicating whether sound is enabled in the app.
+     * @type {boolean}
+     */
     isSoundEnabled: boolean;
 }
 
+/**
+ * @description Props interface defines the properties for the SettingsScreen component.
+ * @interface Props
+ * @typedef {Props}
+ */
 interface Props {
+    /**
+     * @description Navigation prop for navigating between screens in the app.
+     * @type {*}
+     */
     navigation: any;
+    /**
+     * @description Settings object containing user preferences such as font size and sound settings.
+     * @type {SettingsType}
+     */
     settings: SettingsType;
+    /**
+     * @description Function to update the settings state in the app.
+     * @type {React.Dispatch<React.SetStateAction<SettingsType>>}
+     */
     setSettings: React.Dispatch<React.SetStateAction<SettingsType>>;
 }
 
+/**
+ * @description SettingsScreen component for the SeniorLearn Bulletins app. This component allows users to adjust settings such as font size and sound preferences.
+ * @export
+ * @param {Props} param0 
+ * @param {*} param0.navigation 
+ * @param {SettingsType} param0.settings 
+ * @param {React.Dispatch<React.SetStateAction<SettingsType>>} param0.setSettings 
+ * @returns {*} 
+ */
 export default function SettingsScreen({ navigation, settings, setSettings }: Props) {
     const { fontSize = 16, isSoundEnabled = true } = settings;
 
@@ -86,6 +125,10 @@ export default function SettingsScreen({ navigation, settings, setSettings }: Pr
 }
 
 //TODO: add colours and styles for disabled buttons?
+/**
+ * @description Styles for the SettingsScreen component.
+ * @type {*}
+ */
 const styles = StyleSheet.create({
     //Main container styles
     container: {

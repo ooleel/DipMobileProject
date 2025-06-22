@@ -2,7 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+/**
+ * @description Defines the structure of a Bulletin object.
+ * @interface Bulletin
+ * @typedef {Bulletin}
+ */
 interface Bulletin {
+    /**
+     * @description Bulletin ID 
+     * @type {string}
+     */
     _id: string;
     title: string;
     content: string;
@@ -11,15 +20,51 @@ interface Bulletin {
     createdAt: string;
 };
 
+/**
+ * @description Defines the properties for the BulletinDetailsScreen component.
+ * @interface Props
+ * @typedef {Props}
+ */
 interface Props {
+    /**
+     * @description Navigation prop for navigating between screens, typically provided by React Navigation.
+     * @type {*}
+     */
     navigation: any;
+    /**
+     * @description Route prop for accessing route parameters, typically provided by React Navigation, including the bulletin data.
+     * @type {*}
+     */
     route: any;
+    /**
+     * @description Settings object containing user preferences such as font size.
+     * @type {?*}
+     */
     settings?: any;
+    /**
+     * @descriptionUser object containing user information, such as ID and role. Will determine the user's CRUD options.
+     * @type {?*}
+     */
     user?: any;
 }
 
+/**
+ * @description Base URL for the API. 
+ * @type {"http://localhost:3002"}
+ */
 const API_BASE_URL = 'http://localhost:3002'; 
 
+/**
+ * BulletinDetailsScreen component displays the details of a bulletin, including its title, content, and metadata. It allows users to delete the bulletin if they have the appropriate permissions.
+ * @description Fetches bulletin details from the navigation parameters and displays them. 
+ * @export
+ * @param {Props} param0 
+ * @param {*} param0.navigation 
+ * @param {*} param0.route 
+ * @param {*} param0.settings 
+ * @param {*} param0.user 
+ * @returns {*}
+ */
 export default function BulletinDetailsScreen({ navigation, route, settings, user }: Props) {
     const [bulletin, setBulletin] = useState<Bulletin | null>(null);
     const [loading, setLoading] = useState(true);
@@ -166,6 +211,10 @@ export default function BulletinDetailsScreen({ navigation, route, settings, use
     );
 }
 
+/**
+ * @description Styles for the BulletinDetailsScreen component.
+ * @type {*}
+ */
 const styles = StyleSheet.create({
     // Main styles
     container:{

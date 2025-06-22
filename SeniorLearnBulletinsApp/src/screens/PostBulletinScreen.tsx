@@ -2,14 +2,44 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+/**
+ * @description PostBulletinScreen component for the SeniorLearn Bulletins app. This component allows users to post new bulletins, either as member or official bulletins, depending on their permissions.
+ * @interface Props
+ * @typedef {Props}
+ */
 interface Props {
+    /**
+     * @description Navigation prop for navigating between screens in the app.
+     * @type {*}
+     */
     navigation: any;
+    /**
+     * @description Settings object containing user preferences such as font size.
+     * @type {?*}
+     */
     settings?: any;
+    /**
+     * @description User object containing information about the logged-in user, such as role, email, and optional username.
+     * @type {?*}
+     */
     user?: any;
 }
 
+/**
+ * @description API base URL for the SeniorLearn Bulletins app.
+ * @type {"http://localhost:3002"}
+ */
 const API_BASE_URL = 'http://localhost:3002'; 
 
+/**
+ * @description PostBulletinScreen component for the SeniorLearn Bulletins app. This component allows users to post new bulletins, either as member or official bulletins, depending on their permissions.
+ * @export
+ * @param {Props} param0 
+ * @param {*} param0.navigation 
+ * @param {*} param0.settings 
+ * @param {*} param0.user 
+ * @returns {*} 
+ */
 export default function PostBulletinScreen({ navigation, settings, user }: Props) {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
@@ -194,6 +224,10 @@ export default function PostBulletinScreen({ navigation, settings, user }: Props
     );
 }
 
+ /**
+  * @description Styles for the PostBulletinScreen component.
+  * @type {*}
+  */
  const styles = StyleSheet.create({
     // Main container
     container:{

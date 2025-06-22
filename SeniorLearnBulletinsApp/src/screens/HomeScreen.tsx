@@ -1,13 +1,44 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView } from 'react-native';
 
+/**
+ * @description HomeScreen component for the SeniorLearn Bulletins app. This component serves as the main screen of the app, providing navigation options to view bulletins, post new bulletins, and access settings.
+ * @interface Props
+ * @typedef {Props}
+ */
 interface Props {
+    /**
+     * @description Navigation prop for navigating between screens in the app.
+     * @type {*}
+     */
     navigation: any;
+    /**
+     * @description Settings object containing user preferences such as font size.
+     * @type {?*}
+     */
     settings?: any;
+    /**
+     * @description Style object for applying settings such as font size to the components.
+     * @type {?{ fontSize: number; }}
+     */
     settingsStyle?: { fontSize: number; }; 
+    /**
+     * @description User object containing information about the logged-in user, such as role, email, and optional username.
+     * @type {{ role: string; email: string; username?: string; }}
+     */
     user: { role: string; email: string; username?: string; };
 }
 
+/**
+ * @description HomeScreen component for the SeniorLearn Bulletins app. This component serves as the main screen of the app, providing navigation options to view bulletins, post new bulletins, and access settings.
+ * @export
+ * @param {Props} param0 
+ * @param {*} param0.navigation 
+ * @param {*} param0.settings 
+ * @param {{ fontSize: number; }} param0.settingsStyle 
+ * @param {{ role: string; email: string; username?: string; }} param0.user 
+ * @returns {*} 
+ */
 export default function HomeScreen({ navigation, settings, settingsStyle, user }: Props) {
     const appliedSettings = settings ? { fontSize: settings.fontSize || 16 } : {};
 
@@ -68,6 +99,10 @@ export default function HomeScreen({ navigation, settings, settingsStyle, user }
 )}
 */
 
+/**
+ * @description Styles for the HomeScreen component.
+ * @type {*}
+ */
 const styles = StyleSheet.create({
     //Main container styles
     container: {

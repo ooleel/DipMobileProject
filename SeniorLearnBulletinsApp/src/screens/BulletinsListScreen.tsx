@@ -3,7 +3,16 @@ import { View, FlatList, Text, TouchableOpacity, StyleSheet, Alert } from 'react
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useFocusEffect } from '@react-navigation/native';
 
+/**
+ * @description Bulletin interface representing a bulletin post in the app. 
+ * @interface Bulletin
+ * @typedef {Bulletin}
+ */
 interface Bulletin {
+    /**
+     * @description Unique identifier for the bulletin post.
+     * @type {string}
+     */
     _id: string;
     title: string;
     content: string;
@@ -12,15 +21,50 @@ interface Bulletin {
     createdAt: string;
 };
 
+/**
+ * @description Props interface for the BulletinsListScreen component. 
+ * @interface Props
+ * @typedef {Props}
+ */
 interface Props {
+    /**
+     * @description Navigation prop for navigating between screens in the app.
+     * @type {*}
+     */
     navigation: any;
+    /**
+     * @description Settings object containing user preferences such as font size.
+     * @type {?*}
+     */
     settings?: any; 
+    /**
+     * @description User object containing information about the logged-in user, such as role, email, and optional username.
+     * @type {?*}
+     */
     user?: any; 
+    /**
+     * @description Route prop for accessing route parameters passed to the screen.
+     * @type {?*}
+     */
     route?: any;
 };
 
+/**
+ * @description Base URL for the API. This is used to fetch bulletins from the server.
+ * @type {"http://localhost:3002"}
+ */
 const API_BASE_URL = 'http://localhost:3002'; 
 
+/**
+ * @description BulletinsListScreen component for the SeniorLearn Bulletins app. This component displays a list of bulletins, allowing users to view official and member posts, and post new bulletins if they are logged in.
+ * @export
+ * @param {Props} param0 
+ * @param {*} param0.navigation 
+ * @param {*} param0.settings 
+ * @param {*} param0.user 
+ * @param {*} param0.route 
+ * @returns {*} 
+ */
 export default function BulletinsListScreen({ navigation, settings, user, route }: Props ) {
     const [bulletins, setBulletins] = useState<Bulletin[]>([]);
     const [loading, setLoading] = useState(false);
@@ -163,6 +207,10 @@ export default function BulletinsListScreen({ navigation, settings, user, route 
     );
 }
 
+/**
+ * @description Styles for the BulletinsListScreen component.
+ * @type {*}
+ */
 const styles = StyleSheet.create({
     // Main container
     container:{

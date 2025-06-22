@@ -1,4 +1,32 @@
-import React, {useState} from 'react';
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: App.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: App.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, {useState} from 'react';
 import { Alert, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -38,20 +66,20 @@ const Drawer = createDrawerNavigator();
  */
 function AuthStack({ onLogin, onGuestLogin }) {
     return (
-        <Stack.Navigator 
+        &lt;Stack.Navigator 
             screenOptions={{ 
                 headerShown: false // Hide header for auth screens
             }}
         >
-            <Stack.Screen name="Login">
-                {props => <LoginScreen {...props} onLogin={onLogin} onGuestLogin={onGuestLogin} />}
-            </Stack.Screen>
-            {/* <Stack.Screen
+            &lt;Stack.Screen name="Login">
+                {props => &lt;LoginScreen {...props} onLogin={onLogin} onGuestLogin={onGuestLogin} />}
+            &lt;/Stack.Screen>
+            {/* &lt;Stack.Screen
                 name="GuestBulletinsList"
                 component={BulletinsListScreen}
                 headerBackTitle="Back to Login"
             /> */}
-        </Stack.Navigator>
+        &lt;/Stack.Navigator>
     );
 }
 
@@ -84,37 +112,37 @@ function CustomDrawerContent({user, signOut, ...props}) {
     }
 
     return (
-        <DrawerContentScrollView 
+        &lt;DrawerContentScrollView 
             {...props} 
             contentContainerStyle={{ flex: 1, justifyContent: 'space-between' }}
         >
-            <Text
+            &lt;Text
                 style={{margin: 16, fontWeight: 'bold', fontSize: 18}}
             >
                 {user.username || user.email || user.name || 'Guest'}
-            </Text>
+            &lt;/Text>
 
             {/* Drawer items */}
-            <DrawerItem 
+            &lt;DrawerItem 
                 label="How to use this app"
                 onPress={() => props.navigation.navigate('HowTo')}
             />
-            <DrawerItem 
+            &lt;DrawerItem 
                 label="About SeniorLearn"
                 onPress={() => props.navigation.navigate('About')}
             />
-            <DrawerItem 
+            &lt;DrawerItem 
                 label="Settings"
                 onPress={() => props.navigation.navigate('Settings')}
             />
 
             {/* Log out */}
-            <DrawerItem 
+            &lt;DrawerItem 
                 label="Log out"
                 onPress={handleLogOut}
                 style={{ marginBottom: 16 }}
             />
-        </DrawerContentScrollView>
+        &lt;/DrawerContentScrollView>
     )
 }
 
@@ -129,64 +157,64 @@ function CustomDrawerContent({user, signOut, ...props}) {
  */
 function AppDrawer({ user, signOut, settings, setSettings }) {
     return (
-        <Drawer.Navigator
-            drawerContent={props => <CustomDrawerContent {...props} user={user} signOut={signOut} />}
+        &lt;Drawer.Navigator
+            drawerContent={props => &lt;CustomDrawerContent {...props} user={user} signOut={signOut} />}
             screenOptions={{ headerTitle: 'SeniorLearn' }}
         >
             {/* Main screens */}
-            <Drawer.Screen 
+            &lt;Drawer.Screen 
                 name="HomeStack" 
                 options={{ title: 'Home' }}
             >
                 {() => (
-                    <Stack.Navigator
+                    &lt;Stack.Navigator
                         screenOptions={{ 
                             headerTitle: 'SeniorLearn',
                             headerBackTitle: 'Back',
                         }}
                     >
-                        <Stack.Screen name="Home">
-                            {props => (<HomeScreen {...props} settings={settings} setSettings={setSettings} user={user}/>
+                        &lt;Stack.Screen name="Home">
+                            {props => (&lt;HomeScreen {...props} settings={settings} setSettings={setSettings} user={user}/>
                             )}
-                        </Stack.Screen>
-                        <Stack.Screen name="BulletinsList">
-                            {props => (<BulletinsListScreen {...props} settings={settings} user={user}/>
+                        &lt;/Stack.Screen>
+                        &lt;Stack.Screen name="BulletinsList">
+                            {props => (&lt;BulletinsListScreen {...props} settings={settings} user={user}/>
                             )}
-                        </Stack.Screen>
-                        <Stack.Screen name="BulletinDetails">
-                            {props => (<BulletinDetailsScreen {...props} settings={settings} user={user}/>
+                        &lt;/Stack.Screen>
+                        &lt;Stack.Screen name="BulletinDetails">
+                            {props => (&lt;BulletinDetailsScreen {...props} settings={settings} user={user}/>
                             )}
-                        </Stack.Screen>
-                        <Stack.Screen name="PostBulletin"> 
-                            {props => (<PostBulletinScreen {...props} settings={settings} user={user}/>
+                        &lt;/Stack.Screen>
+                        &lt;Stack.Screen name="PostBulletin"> 
+                            {props => (&lt;PostBulletinScreen {...props} settings={settings} user={user}/>
                             )}
-                        </Stack.Screen>
-                    </Stack.Navigator>
+                        &lt;/Stack.Screen>
+                    &lt;/Stack.Navigator>
                 )}
-            </Drawer.Screen>
+            &lt;/Drawer.Screen>
 
             {/* other routes */}
-            <Drawer.Screen name="Settings" options={{ title: 'Settings' }}>
+            &lt;Drawer.Screen name="Settings" options={{ title: 'Settings' }}>
                 {props => (
-                    <SettingsScreen
+                    &lt;SettingsScreen
                         {...props} 
                         settings={settings} 
                         setSettings={setSettings} 
                     />
                 )}
-            </Drawer.Screen>
+            &lt;/Drawer.Screen>
             {/* Uncomment if screens are implemented */}
-            {/* <Drawer.Screen 
+            {/* &lt;Drawer.Screen 
                 name="HowTo" 
                 component={HowToScreen} 
                 options={{ title: 'How to use this app' }}
             />
-            <Drawer.Screen
+            &lt;Drawer.Screen
                 name="About"
                 component={AboutScreen}
                 options={{ title: 'About SeniorLearn' }}
             /> */}  
-        </Drawer.Navigator>
+        &lt;/Drawer.Navigator>
     )
 }
 
@@ -209,17 +237,39 @@ export default function App() {
     const signOut = () => setUser(null);
 
     return (
-        <SafeAreaProvider>
-            <NavigationContainer>
+        &lt;SafeAreaProvider>
+            &lt;NavigationContainer>
                 {user ? (
-                    <AppDrawer 
+                    &lt;AppDrawer 
                         user={user} signOut={signOut} 
                         settings={settings} setSettings={setSettings}
                     />
                 ) : (
-                    <AuthStack onLogin={signIn} onGuestLogin={signInAsGuest}/>
+                    &lt;AuthStack onLogin={signIn} onGuestLogin={signInAsGuest}/>
                 )}
-            </NavigationContainer>
-        </SafeAreaProvider>
+            &lt;/NavigationContainer>
+        &lt;/SafeAreaProvider>
     );
-}
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AppDrawer">AppDrawer</a></li><li><a href="global.html#AuthStack">AuthStack</a></li><li><a href="global.html#CustomDrawerContent">CustomDrawerContent</a></li><li><a href="global.html#Drawer">Drawer</a></li><li><a href="global.html#Stack">Stack</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Sun Jun 22 2025 16:51:00 GMT+1000 (Australian Eastern Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
